@@ -123,7 +123,12 @@ const AddCommandsStep: React.FC<AddCommandsStepProps> = ({
               {commands.map((command) => (
                 <div key={command.id} className="border rounded-lg p-3 bg-white shadow-sm">
                   <h4 className="font-semibold text-gray-800">"{command.command}"</h4>
-                  <p className="text-sm text-gray-600">{command.description}</p>
+                  <p className="text-sm text-gray-600 mb-1"><span className="font-medium">Meaning:</span> {command.description}</p>
+                  {command.whenToUse && (
+                    <p className="text-xs text-gray-500">
+                      <span className="font-medium">When to use:</span> {command.whenToUse}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
