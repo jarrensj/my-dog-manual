@@ -31,7 +31,9 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
     onComplete(dogName.trim(), ownerName.trim(), emergencyPhone.trim() || undefined, emergencyEmail.trim() || undefined);
   };
 
-  const toggleEmergencySection = () => {
+  const toggleEmergencySection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     console.log('Emergency section clicked, current state:', isEmergencyExpanded);
     setIsEmergencyExpanded(!isEmergencyExpanded);
   };
@@ -81,14 +83,14 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
             </div>
 
             <div className="border-t border-border pt-6">
-              <button 
-                type="button"
+              <div 
                 onClick={toggleEmergencySection}
-                className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer w-full text-left bg-transparent border-none p-2 -ml-2 rounded hover:bg-muted/20"
+                className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer p-2 -ml-2 rounded hover:bg-muted/20 select-none"
+                style={{ userSelect: 'none' }}
               >
                 {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                 &gt; Emergency contact configuration (optional)...
-              </button>
+              </div>
               
               {isEmergencyExpanded && (
                 <div className="mt-4 space-y-4">
