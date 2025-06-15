@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Terminal, Code } from 'lucide-react';
 
@@ -7,7 +6,7 @@ const AppHeader: React.FC = () => {
     <div className="terminal-spacing text-center">
       <div className="terminal-border border-primary bg-card mb-8">
         <div className="terminal-header">
-          <span className="text-primary font-bold">mydogmanual.exe</span>
+          <span className="text-primary font-bold">mydogmanual.com</span>
         </div>
         <div className="p-6">
           <div className="ascii-art text-primary mb-4">
