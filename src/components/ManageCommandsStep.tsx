@@ -134,13 +134,6 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
               ADD COMMAND
             </Button>
             <Button
-              onClick={handleEditCareTips}
-              variant="outline"
-              className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
-            >
-              EDIT TIPS
-            </Button>
-            <Button
               onClick={onStartOver}
               variant="outline"
               className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
@@ -341,12 +334,23 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
           <span className="text-primary font-bold">care_tips.txt</span>
         </div>
         <CardContent className="terminal-spacing">
-          <div className="space-y-2">
-            {careTips.map((tip, index) => (
-              <div key={index} className="text-foreground font-mono text-sm">
-                • {tip}
-              </div>
-            ))}
+          <div className="flex items-center justify-between mb-4">
+            <div className="space-y-2 flex-1">
+              {careTips.map((tip, index) => (
+                <div key={index} className="text-foreground font-mono text-sm">
+                  • {tip}
+                </div>
+              ))}
+            </div>
+            <Button
+              onClick={handleEditCareTips}
+              variant="outline"
+              size="sm"
+              className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary ml-4"
+            >
+              <Edit3 className="w-4 h-4 mr-2" />
+              EDIT TIPS
+            </Button>
           </div>
         </CardContent>
       </Card>
