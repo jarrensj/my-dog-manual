@@ -1,9 +1,9 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { User, ArrowRight, Phone, Mail, ChevronDown, ChevronRight } from 'lucide-react';
 
 interface DogInfoStepProps {
@@ -29,6 +29,11 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
       return;
     }
     onComplete(dogName.trim(), ownerName.trim(), emergencyPhone.trim() || undefined, emergencyEmail.trim() || undefined);
+  };
+
+  const toggleEmergencySection = () => {
+    console.log('Emergency section clicked, current state:', isEmergencyExpanded);
+    setIsEmergencyExpanded(!isEmergencyExpanded);
   };
 
   return (
@@ -76,56 +81,53 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
             </div>
 
             <div className="border-t border-border pt-6">
-              <Collapsible open={isEmergencyExpanded} onOpenChange={setIsEmergencyExpanded}>
-                <CollapsibleTrigger asChild>
-                  <button 
-                    type="button"
-                    className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer w-full text-left bg-transparent border-none p-2 -ml-2 rounded hover:bg-muted/20"
-                  >
-                    {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                    &gt; Emergency contact configuration (optional)...
-                  </button>
-                </CollapsibleTrigger>
-                
-                <CollapsibleContent className="mt-4">
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="emergencyPhone" className="text-primary font-mono text-sm mb-2 block flex items-center gap-2">
-                        <Phone className="w-3 h-3" />
-                        EMERGENCY_PHONE= (optional)
-                      </Label>
-                      <Input
-                        id="emergencyPhone"
-                        value={emergencyPhone}
-                        onChange={(e) => setEmergencyPhone(e.target.value)}
-                        placeholder="Enter emergency contact number"
-                        className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
-                      />
-                      <p className="text-muted-foreground font-mono text-xs mt-1">
-                        # For urgent situations requiring immediate assistance
-                      </p>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="emergencyEmail" className="text-primary font-mono text-sm mb-2 block flex items-center gap-2">
-                        <Mail className="w-3 h-3" />
-                        EMERGENCY_EMAIL= (optional)
-                      </Label>
-                      <Input
-                        id="emergencyEmail"
-                        type="email"
-                        value={emergencyEmail}
-                        onChange={(e) => setEmergencyEmail(e.target.value)}
-                        placeholder="Enter emergency contact email"
-                        className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
-                      />
-                      <p className="text-muted-foreground font-mono text-xs mt-1">
-                        # Secondary contact method for emergency notifications
-                      </p>
-                    </div>
+              <button 
+                type="button"
+                onClick={toggleEmergencySection}
+                className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer w-full text-left bg-transparent border-none p-2 -ml-2 rounded hover:bg-muted/20"
+              >
+                {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                &gt; Emergency contact configuration (optional)...
+              </button>
+              
+              {isEmergencyExpanded && (
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <Label htmlFor="emergencyPhone" className="text-primary font-mono text-sm mb-2 block flex items-center gap-2">
+                      <Phone className="w-3 h-3" />
+                      EMERGENCY_PHONE= (optional)
+                    </Label>
+                    <Input
+                      id="emergencyPhone"
+                      value={emergencyPhone}
+                      onChange={(e) => setEmergencyPhone(e.target.value)}
+                      placeholder="Enter emergency contact number"
+                      className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
+                    />
+                    <p className="text-muted-foreground font-mono text-xs mt-1">
+                      # For urgent situations requiring immediate assistance
+                    </p>
                   </div>
-                </CollapsibleContent>
-              </Collapsible>
+
+                  <div>
+                    <Label htmlFor="emergencyEmail" className="text-primary font-mono text-sm mb-2 block flex items-center gap-2">
+                      <Mail className="w-3 h-3" />
+                      EMERGENCY_EMAIL= (optional)
+                    </Label>
+                    <Input
+                      id="emergencyEmail"
+                      type="email"
+                      value={emergencyEmail}
+                      onChange={(e) => setEmergencyEmail(e.target.value)}
+                      placeholder="Enter emergency contact email"
+                      className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
+                    />
+                    <p className="text-muted-foreground font-mono text-xs mt-1">
+                      # Secondary contact method for emergency notifications
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <Button 
