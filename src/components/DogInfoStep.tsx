@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -78,9 +77,14 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
 
             <div className="border-t border-border pt-6">
               <Collapsible open={isEmergencyExpanded} onOpenChange={setIsEmergencyExpanded}>
-                <CollapsibleTrigger className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors">
-                  {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                  &gt; Emergency contact configuration (optional)...
+                <CollapsibleTrigger asChild>
+                  <button 
+                    type="button"
+                    className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer w-full text-left bg-transparent border-none p-2 -ml-2 rounded hover:bg-muted/20"
+                  >
+                    {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                    &gt; Emergency contact configuration (optional)...
+                  </button>
                 </CollapsibleTrigger>
                 
                 <CollapsibleContent className="mt-4">
