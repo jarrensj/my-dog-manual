@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Download, Trash2, Heart } from 'lucide-react';
+import { Plus, Download, Trash2, Heart, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import jsPDF from 'jspdf';
 
 interface DogCommand {
   id: string;
@@ -114,8 +115,102 @@ const Index = () => {
     URL.revokeObjectURL(url);
 
     toast({
-      title: "Guide Exported! 📄",
-      description: "Your dog command guide has been downloaded."
+      title: "Text Guide Exported! 📄",
+      description: "Your dog command guide has been downloaded as a text file."
+    });
+  };
+
+  const exportPDF = () => {
+    if (commands.length === 0) {
+      toast({
+        title: "No Commands",
+        description: "Add some commands before exporting your guide!",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const pdf = new jsPDF();
+    const pageWidth = pdf.internal.pageSize.width;
+    const pageHeight = pdf.internal.pageSize.height;
+    const margin = 20;
+    let yPosition = margin;
+
+    // Helper function to add text with word wrapping
+    const addText = (text: string, fontSize: number, isBold: boolean = false, color: string = '#000000') => {
+      pdf.setFontSize(fontSize);
+      pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+      pdf.setTextColor(color);
+      
+      const lines = pdf.splitTextToSize(text, pageWidth - 2 * margin);
+      
+      // Check if we need a new page
+      if (yPosition + (lines.length * fontSize * 0.5) > pageHeight - margin) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      pdf.text(lines, margin, yPosition);
+      yPosition += lines.length * fontSize * 0.5 + 5;
+    };
+
+    // Header
+    addText(`🐕 ${dogName || 'My Dog'}'s Command Guide`, 24, true, '#2563eb');
+    if (ownerName) {
+      addText(`Created by ${ownerName}`, 14, false, '#6b7280');
+    }
+    addText(`Generated on ${new Date().toLocaleDateString()}`, 12, false, '#9ca3af');
+    
+    yPosition += 10;
+
+    // Introduction
+    addText(`This guide contains ${commands.length} command${commands.length !== 1 ? 's' : ''} to help you communicate effectively with ${dogName || 'your dog'}.`, 12);
+    
+    yPosition += 10;
+
+    // Group commands by difficulty
+    const easy = commands.filter(cmd => cmd.difficulty === 'Easy');
+    const medium = commands.filter(cmd => cmd.difficulty === 'Medium');
+    const hard = commands.filter(cmd => cmd.difficulty === 'Hard');
+
+    const addSection = (title: string, commandList: DogCommand[], color: string) => {
+      if (commandList.length === 0) return;
+      
+      yPosition += 5;
+      addText(title, 16, true, color);
+      
+      commandList.forEach((cmd, index) => {
+        addText(`${index + 1}. ${cmd.command.toUpperCase()}`, 14, true);
+        addText(`What it does: ${cmd.description}`, 11);
+        if (cmd.whenToUse.trim()) {
+          addText(`When to use: ${cmd.whenToUse}`, 11, false, '#6b7280');
+        }
+        yPosition += 5;
+      });
+    };
+
+    addSection('🟢 EASY COMMANDS', easy, '#16a34a');
+    addSection('🟡 MEDIUM COMMANDS', medium, '#ca8a04');
+    addSection('🔴 ADVANCED COMMANDS', hard, '#dc2626');
+
+    // Tips section
+    yPosition += 10;
+    addText('Tips for Success:', 16, true, '#7c3aed');
+    addText('• Be consistent with your commands', 11);
+    addText('• Use positive reinforcement', 11);
+    addText('• Practice regularly in short sessions', 11);
+    addText('• Always end training on a positive note', 11);
+
+    // Footer
+    yPosition += 15;
+    addText('Generated with ❤️ by Dog Command Guide Builder', 10, false, '#9ca3af');
+
+    // Save the PDF
+    pdf.save(`${dogName || 'My-Dog'}-Command-Guide.pdf`);
+
+    toast({
+      title: "PDF Guide Exported! 📄",
+      description: "Your dog command guide has been downloaded as a styled PDF."
     });
   };
 
@@ -311,15 +406,26 @@ const Index = () => {
                 <CardTitle className="flex items-center justify-between">
                   <span>Your Commands ({commands.length})</span>
                   {commands.length > 0 && (
-                    <Button
-                      onClick={exportGuide}
-                      variant="secondary"
-                      size="sm"
-                      className="bg-white text-green-600 hover:bg-green-50"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Export Guide
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={exportGuide}
+                        variant="secondary"
+                        size="sm"
+                        className="bg-white text-green-600 hover:bg-green-50"
+                      >
+                        <FileText className="w-4 h-4 mr-2" />
+                        Export TXT
+                      </Button>
+                      <Button
+                        onClick={exportPDF}
+                        variant="secondary"
+                        size="sm"
+                        className="bg-white text-green-600 hover:bg-green-50"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Export PDF
+                      </Button>
+                    </div>
                   )}
                 </CardTitle>
               </CardHeader>
