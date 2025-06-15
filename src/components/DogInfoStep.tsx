@@ -83,14 +83,14 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
             </div>
 
             <div className="border-t border-border pt-6">
-              <div 
+              <button 
+                type="button"
                 onClick={toggleEmergencySection}
-                className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer p-2 -ml-2 rounded hover:bg-muted/20 select-none"
-                style={{ userSelect: 'none' }}
+                className="flex items-center gap-2 text-primary font-mono hover:text-primary/80 transition-colors cursor-pointer p-2 -ml-2 rounded hover:bg-muted/20 select-none w-full text-left bg-transparent border-none outline-none"
               >
                 {isEmergencyExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                 &gt; Emergency contact configuration (optional)...
-              </div>
+              </button>
               
               {isEmergencyExpanded && (
                 <div className="mt-4 space-y-4">
