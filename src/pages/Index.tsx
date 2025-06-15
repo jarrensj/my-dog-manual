@@ -186,7 +186,7 @@ const Index = () => {
         {/* Terminal footer */}
         <div className="text-center mt-12 py-6 border-t border-border">
           <div className="text-muted-foreground font-mono text-sm">
-            &gt; mydogmanual.com v1.0 | Responsible pet care protocol
+            &gt; mydogmanual.com v1.0.0-beta | Responsible pet care protocol
             <br />
             <span className="text-xs opacity-75">
               # Made for keeping your furry friend safe and happy 🐕
