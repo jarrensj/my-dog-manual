@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Download, Trash2, Heart, FileText } from 'lucide-react';
+import { Plus, Download, Trash2, Heart, FileText, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
 
@@ -16,7 +17,7 @@ interface DogCommand {
   whenToUse: string;
 }
 
-const STORAGE_KEY = 'dogCommandGuide';
+const STORAGE_KEY = 'dogCareGuide';
 
 const Index = () => {
   const [commands, setCommands] = useState<DogCommand[]>([]);
@@ -58,7 +59,7 @@ const Index = () => {
     if (!currentCommand.command.trim() || !currentCommand.description.trim()) {
       toast({
         title: "Missing Information",
-        description: "Please fill in at least the command name and description.",
+        description: "Please fill in at least the command name and what it means.",
         variant: "destructive"
       });
       return;
@@ -78,7 +79,7 @@ const Index = () => {
 
     toast({
       title: "Command Added! 🐕",
-      description: `"${newCommand.command}" has been added to your guide.`
+      description: `"${newCommand.command}" has been added to the care guide.`
     });
   };
 
@@ -86,7 +87,7 @@ const Index = () => {
     setCommands(commands.filter(cmd => cmd.id !== id));
     toast({
       title: "Command Removed",
-      description: "Command has been removed from your guide."
+      description: "Command has been removed from the care guide."
     });
   };
 
@@ -94,7 +95,7 @@ const Index = () => {
     if (commands.length === 0) {
       toast({
         title: "No Commands",
-        description: "Add some commands before exporting your guide!",
+        description: "Add some commands before exporting the care guide!",
         variant: "destructive"
       });
       return;
@@ -105,15 +106,15 @@ const Index = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${dogName || 'My-Dog'}-Command-Guide.txt`;
+    a.download = `${dogName || 'Dog'}-Care-Guide.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
     toast({
-      title: "Text Guide Exported! 📄",
-      description: "Your dog command guide has been downloaded as a text file."
+      title: "Care Guide Exported! 📄",
+      description: "Your dog care guide has been downloaded as a text file."
     });
   };
 
@@ -121,7 +122,7 @@ const Index = () => {
     if (commands.length === 0) {
       toast({
         title: "No Commands",
-        description: "Add some commands before exporting your guide!",
+        description: "Add some commands before exporting the care guide!",
         variant: "destructive"
       });
       return;
@@ -152,78 +153,82 @@ const Index = () => {
     };
 
     // Header
-    addText(`🐕 ${dogName || 'My Dog'}'s Command Guide`, 24, true, '#2563eb');
+    addText(`🐕 ${dogName || 'Dog'} Care Guide`, 24, true, '#2563eb');
     if (ownerName) {
-      addText(`Created by ${ownerName}`, 14, false, '#6b7280');
+      addText(`Owner: ${ownerName}`, 14, false, '#6b7280');
     }
+    addText(`For Babysitters & Caretakers`, 16, true, '#7c3aed');
     addText(`Generated on ${new Date().toLocaleDateString()}`, 12, false, '#9ca3af');
     
     yPosition += 10;
 
     // Introduction
-    addText(`This guide contains ${commands.length} command${commands.length !== 1 ? 's' : ''} to help you communicate effectively with ${dogName || 'your dog'}.`, 12);
+    addText(`This guide contains important information about ${dogName || 'this dog'} to help you provide the best care. Please read through all commands and instructions before interacting with ${dogName || 'the dog'}.`, 12);
     
     yPosition += 10;
 
     // Commands list
-    addText('📋 COMMANDS', 16, true, '#7c3aed');
+    addText('🗣️ COMMANDS & RESPONSES', 16, true, '#7c3aed');
     
     commands.forEach((cmd, index) => {
-      addText(`${index + 1}. ${cmd.command.toUpperCase()}`, 14, true);
-      addText(`What it does: ${cmd.description}`, 11);
+      addText(`${index + 1}. "${cmd.command.toUpperCase()}"`, 14, true);
+      addText(`What this means: ${cmd.description}`, 11);
       if (cmd.whenToUse.trim()) {
-        addText(`When to use: ${cmd.whenToUse}`, 11, false, '#6b7280');
+        addText(`When to use this: ${cmd.whenToUse}`, 11, false, '#6b7280');
       }
       yPosition += 5;
     });
 
-    // Tips section
+    // Care tips section
     yPosition += 10;
-    addText('Tips for Success:', 16, true, '#7c3aed');
-    addText('• Be consistent with your commands', 11);
-    addText('• Use positive reinforcement', 11);
-    addText('• Practice regularly in short sessions', 11);
-    addText('• Always end training on a positive note', 11);
+    addText('Important Care Tips:', 16, true, '#7c3aed');
+    addText('• Use a calm, confident voice when giving commands', 11);
+    addText(`• Always supervise interactions with ${dogName || 'the dog'}`, 11);
+    addText('• If the dog seems anxious or confused, give them space', 11);
+    addText('• Contact the owner immediately if any problems arise', 11);
+    addText('• Keep emergency contact information handy', 11);
 
     // Footer
     yPosition += 15;
-    addText('Generated with ❤️ by Dog Command Guide Builder', 10, false, '#9ca3af');
+    addText('Generated with ❤️ by Dog Care Guide Builder', 10, false, '#9ca3af');
 
     // Save the PDF
-    pdf.save(`${dogName || 'My-Dog'}-Command-Guide.pdf`);
+    pdf.save(`${dogName || 'Dog'}-Care-Guide.pdf`);
 
     toast({
-      title: "PDF Guide Exported! 📄",
-      description: "Your dog command guide has been downloaded as a styled PDF."
+      title: "PDF Care Guide Exported! 📄",
+      description: "Your dog care guide has been downloaded as a styled PDF."
     });
   };
 
   const generateGuideContent = () => {
-    const title = `🐕 ${dogName || 'My Dog'}'s Command Guide`;
-    const subtitle = ownerName ? `Created by ${ownerName}` : 'Personal Training Guide';
+    const title = `🐕 ${dogName || 'Dog'} Care Guide for Babysitters & Caretakers`;
+    const subtitle = ownerName ? `Owner: ${ownerName}` : 'Dog Care Instructions';
     
-    let content = `${title}\n${subtitle}\n${'='.repeat(50)}\n\n`;
+    let content = `${title}\n${subtitle}\n${'='.repeat(60)}\n\n`;
     
-    content += `This guide contains ${commands.length} command${commands.length !== 1 ? 's' : ''} to help you communicate effectively with ${dogName || 'your dog'}.\n\n`;
+    content += `This guide contains important information about ${dogName || 'this dog'} to help you provide the best care.\n`;
+    content += `Please read through all commands and instructions before interacting with ${dogName || 'the dog'}.\n\n`;
 
     // Commands list
-    content += `📋 COMMANDS\n${'-'.repeat(12)}\n\n`;
+    content += `🗣️ COMMANDS & RESPONSES\n${'-'.repeat(25)}\n\n`;
     commands.forEach((cmd, index) => {
-      content += `${index + 1}. ${cmd.command.toUpperCase()}\n`;
-      content += `   What it does: ${cmd.description}\n`;
+      content += `${index + 1}. "${cmd.command.toUpperCase()}"\n`;
+      content += `   What this means: ${cmd.description}\n`;
       if (cmd.whenToUse.trim()) {
-        content += `   When to use: ${cmd.whenToUse}\n`;
+        content += `   When to use this: ${cmd.whenToUse}\n`;
       }
       content += '\n';
     });
 
-    content += `\nTips for Success:\n`;
-    content += `• Be consistent with your commands\n`;
-    content += `• Use positive reinforcement\n`;
-    content += `• Practice regularly in short sessions\n`;
-    content += `• Always end training on a positive note\n\n`;
+    content += `\nIMPORTANT CARE TIPS:\n`;
+    content += `• Use a calm, confident voice when giving commands\n`;
+    content += `• Always supervise interactions with ${dogName || 'the dog'}\n`;
+    content += `• If the dog seems anxious or confused, give them space\n`;
+    content += `• Contact the owner immediately if any problems arise\n`;
+    content += `• Keep emergency contact information handy\n\n`;
     
-    content += `Generated with ❤️ by Dog Command Guide Builder\n`;
+    content += `Generated with ❤️ by Dog Care Guide Builder\n`;
     content += `Date: ${new Date().toLocaleDateString()}\n`;
 
     return content;
@@ -235,12 +240,12 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Heart className="w-8 h-8 text-orange-500" />
-            <h1 className="text-4xl font-bold text-gray-800">Dog Command Guide Builder</h1>
+            <Users className="w-8 h-8 text-orange-500" />
+            <h1 className="text-4xl font-bold text-gray-800">Dog Care Guide Builder</h1>
             <Heart className="w-8 h-8 text-orange-500" />
           </div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Create a personalized training guide for your furry friend. Document commands, export your guide, and become the best dog parent!
+            Create a comprehensive care guide for babysitters, pet sitters, and caretakers. Help them understand how to communicate with your dog and provide the best care while you're away.
           </p>
         </div>
 
@@ -252,7 +257,7 @@ const Index = () => {
               <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
                 <CardTitle className="flex items-center gap-2">
                   <Heart className="w-5 h-5" />
-                  About Your Dog
+                  Dog & Owner Information
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-4">
@@ -288,45 +293,45 @@ const Index = () => {
               <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
                 <CardTitle className="flex items-center gap-2">
                   <Plus className="w-5 h-5" />
-                  Add New Command
+                  Add Command or Instruction
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-4">
                 <div>
                   <Label htmlFor="command" className="text-sm font-medium text-gray-700">
-                    Command *
+                    Command or Phrase *
                   </Label>
                   <Input
                     id="command"
                     value={currentCommand.command}
                     onChange={(e) => setCurrentCommand({...currentCommand, command: e.target.value})}
-                    placeholder="e.g., Sit, Stay, Come"
+                    placeholder="e.g., Sit, Stay, Come, Good boy/girl"
                     className="mt-1"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="description" className="text-sm font-medium text-gray-700">
-                    What does this command do? *
+                    What does this command mean? *
                   </Label>
                   <Textarea
                     id="description"
                     value={currentCommand.description}
                     onChange={(e) => setCurrentCommand({...currentCommand, description: e.target.value})}
-                    placeholder="Describe what your dog should do when given this command"
+                    placeholder="Explain what the dog should do or how they typically respond to this command"
                     className="mt-1 min-h-[80px]"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="whenToUse" className="text-sm font-medium text-gray-700">
-                    When to use this command (Optional)
+                    When should a caretaker use this? (Optional)
                   </Label>
                   <Textarea
                     id="whenToUse"
                     value={currentCommand.whenToUse}
                     onChange={(e) => setCurrentCommand({...currentCommand, whenToUse: e.target.value})}
-                    placeholder="e.g., Before meals, when greeting visitors, during walks"
+                    placeholder="e.g., Before feeding, when the dog is excited, during walks, for bedtime routine"
                     className="mt-1 min-h-[60px]"
                   />
                 </div>
@@ -336,7 +341,7 @@ const Index = () => {
                   className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Command
+                  Add to Care Guide
                 </Button>
               </CardContent>
             </Card>
@@ -348,7 +353,7 @@ const Index = () => {
             <Card className="border-2 border-green-200 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-green-500 to-green-600 text-white">
                 <CardTitle className="flex items-center justify-between">
-                  <span>Your Commands ({commands.length})</span>
+                  <span>Care Instructions ({commands.length})</span>
                   {commands.length > 0 && (
                     <div className="flex gap-2">
                       <Button
@@ -376,9 +381,9 @@ const Index = () => {
               <CardContent className="p-6">
                 {commands.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
-                    <Heart className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                    <p>No commands added yet.</p>
-                    <p className="text-sm">Start building your dog's guide!</p>
+                    <Users className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                    <p>No instructions added yet.</p>
+                    <p className="text-sm">Start building your dog's care guide!</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -386,8 +391,8 @@ const Index = () => {
                       <div key={command.id} className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
-                            <h3 className="font-semibold text-lg text-gray-800 mb-2">{command.command}</h3>
-                            <p className="text-gray-600 mb-2">{command.description}</p>
+                            <h3 className="font-semibold text-lg text-gray-800 mb-2">"{command.command}"</h3>
+                            <p className="text-gray-600 mb-2"><span className="font-medium">Meaning:</span> {command.description}</p>
                             {command.whenToUse && (
                               <p className="text-sm text-gray-500">
                                 <span className="font-medium">When to use:</span> {command.whenToUse}
@@ -415,7 +420,7 @@ const Index = () => {
         {/* Footer */}
         <div className="text-center mt-12 py-6 border-t border-gray-200">
           <p className="text-gray-500">
-            Made with ❤️ for dog lovers everywhere. Happy training! 🐕
+            Made with ❤️ for responsible pet care. Help your caretakers give your dog the best experience! 🐕
           </p>
         </div>
       </div>
