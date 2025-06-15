@@ -46,40 +46,40 @@ const Index = () => {
   const addCommand = (command: DogCommand) => {
     setCommands([...commands, command]);
     toast({
-      title: "Command Added! 🐕",
-      description: `"${command.command}" has been added to the care guide.`
+      title: "コマンドが追加されました 🐕",
+      description: `「${command.command}」がケアガイドに追加されました。`
     });
   };
 
   const removeCommand = (id: string) => {
     setCommands(commands.filter(cmd => cmd.id !== id));
     toast({
-      title: "Command Removed",
-      description: "Command has been removed from the care guide."
+      title: "コマンドが削除されました",
+      description: "ケアガイドからコマンドが削除されました。"
     });
   };
 
   const handleExportText = () => {
     exportTextGuide(commands, dogName, ownerName);
     toast({
-      title: "Care Guide Exported! 📄",
-      description: "Your dog care guide has been downloaded as a text file."
+      title: "ケアガイドをエクスポートしました 📄",
+      description: "テキストファイルとしてダウンロードされました。"
     });
   };
 
   const handleExportPDF = () => {
     exportPDFGuide(commands, dogName, ownerName);
     toast({
-      title: "PDF Care Guide Exported! 📄",
-      description: "Your dog care guide has been downloaded as a styled PDF."
+      title: "PDFケアガイドをエクスポートしました 📄",
+      description: "スタイル付きPDFとしてダウンロードされました。"
     });
   };
 
   const handleFinishAdding = () => {
     if (commands.length === 0) {
       toast({
-        title: "No Commands Added",
-        description: "Please add at least one command before proceeding.",
+        title: "コマンドが追加されていません",
+        description: "続行する前に、少なくとも1つのコマンドを追加してください。",
         variant: "destructive"
       });
       return;
@@ -140,54 +140,56 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="min-h-screen bg-background relative textured">
+      <div className="container mx-auto px-6 py-12 max-w-4xl">
         <AppHeader />
         
-        {/* Step indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center space-x-4">
+        {/* Minimalist step indicator */}
+        <div className="mb-12">
+          <div className="flex items-center justify-center space-x-8">
             {['dog-info', 'add-commands', 'export', 'manage'].map((step, index) => (
               <div key={step} className="flex items-center">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-3 h-3 rounded-full border-2 ${
                     currentStep === step
-                      ? 'bg-blue-500 text-white'
+                      ? 'bg-primary border-primary'
                       : index < ['dog-info', 'add-commands', 'export', 'manage'].indexOf(currentStep)
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-200 text-gray-600'
+                      ? 'bg-primary/60 border-primary/60'
+                      : 'bg-background border-muted-foreground/30'
                   }`}
-                >
-                  {index + 1}
-                </div>
+                />
                 {index < 3 && (
                   <div
-                    className={`w-16 h-1 mx-2 ${
+                    className={`w-12 h-px mx-4 ${
                       index < ['dog-info', 'add-commands', 'export', 'manage'].indexOf(currentStep)
-                        ? 'bg-green-500'
-                        : 'bg-gray-200'
+                        ? 'bg-primary/60'
+                        : 'bg-muted-foreground/20'
                     }`}
                   />
                 )}
               </div>
             ))}
           </div>
-          <div className="flex justify-center mt-2">
-            <span className="text-sm text-gray-600">
-              {currentStep === 'dog-info' && 'Step 1: Dog Information'}
-              {currentStep === 'add-commands' && 'Step 2: Add Commands'}
-              {currentStep === 'export' && 'Step 3: Export Guide'}
-              {currentStep === 'manage' && 'Step 4: Manage Commands'}
+          <div className="flex justify-center mt-4">
+            <span className="text-sm text-muted-foreground font-light">
+              {currentStep === 'dog-info' && 'ステップ 1: 愛犬の情報'}
+              {currentStep === 'add-commands' && 'ステップ 2: コマンドの追加'}
+              {currentStep === 'export' && 'ステップ 3: ガイドのエクスポート'}
+              {currentStep === 'manage' && 'ステップ 4: コマンドの管理'}
             </span>
           </div>
         </div>
 
         {renderCurrentStep()}
 
-        {/* Footer */}
-        <div className="text-center mt-12 py-6 border-t border-gray-200">
-          <p className="text-gray-500">
-            Made with ❤️ for responsible pet care. Help your caretakers give your dog the best experience! 🐕
+        {/* Minimalist footer */}
+        <div className="text-center mt-16 py-8 border-t border-border/30">
+          <p className="text-muted-foreground font-light text-sm leading-relaxed">
+            愛犬への責任あるケアのために作られました。
+            <br />
+            <span className="text-xs opacity-75">
+              Made with ❤️ for responsible pet care. Help your caretakers give your dog the best experience! 🐕
+            </span>
           </p>
         </div>
       </div>

@@ -29,53 +29,57 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <Card className="border-2 border-blue-200 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-center">
-          <CardTitle className="flex items-center justify-center gap-2">
-            <Heart className="w-6 h-6" />
-            Let's Start with Your Dog's Information
+    <div className="max-w-xl mx-auto">
+      <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
+        <CardHeader className="bg-primary/5 text-center pb-6">
+          <CardTitle className="flex items-center justify-center gap-3 text-primary font-light text-xl">
+            <Heart className="w-5 h-5" strokeWidth={1.5} />
+            愛犬の情報
+            <Heart className="w-5 h-5" strokeWidth={1.5} />
           </CardTitle>
+          <p className="text-sm text-muted-foreground font-light mt-2">
+            Dog's Information
+          </p>
         </CardHeader>
-        <CardContent className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <CardContent className="zen-spacing">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div>
-              <Label htmlFor="dogName" className="text-lg font-medium text-gray-700 mb-2 block">
-                What's your dog's name? *
+              <Label htmlFor="dogName" className="text-base font-normal text-foreground mb-3 block">
+                愛犬のお名前 / Dog's Name *
               </Label>
               <Input
                 id="dogName"
                 value={dogName}
                 onChange={(e) => setDogName(e.target.value)}
-                placeholder="e.g., Max, Bella, Charlie"
-                className="text-lg py-3"
+                placeholder="例: ハチ, さくら, Max"
+                className="sketch-border border-primary/20 text-base py-3 bg-background focus:border-primary/40 focus:ring-0"
                 required
               />
             </div>
             
             <div>
-              <Label htmlFor="ownerName" className="text-lg font-medium text-gray-700 mb-2 block">
-                Your name (optional)
+              <Label htmlFor="ownerName" className="text-base font-normal text-foreground mb-3 block">
+                飼い主さまのお名前 / Your Name
               </Label>
               <Input
                 id="ownerName"
                 value={ownerName}
                 onChange={(e) => setOwnerName(e.target.value)}
-                placeholder="Your name"
-                className="text-lg py-3"
+                placeholder="お名前（任意）"
+                className="sketch-border border-primary/20 text-base py-3 bg-background focus:border-primary/40 focus:ring-0"
               />
-              <p className="text-sm text-gray-500 mt-1">
-                This will appear on the care guide for the babysitter/caretaker
+              <p className="text-sm text-muted-foreground mt-2 font-light">
+                ケアガイドに記載されます / Will appear on the care guide
               </p>
             </div>
 
             <Button 
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 text-lg"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-normal py-4 text-base sketch-border border-primary/30 organic-shape shadow-none"
               disabled={!dogName.trim()}
             >
-              Continue to Add Commands
-              <ArrowRight className="w-5 h-5 ml-2" />
+              次へ進む / Continue
+              <ArrowRight className="w-4 h-4 ml-2" strokeWidth={1.5} />
             </Button>
           </form>
         </CardContent>

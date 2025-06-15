@@ -1,94 +1,80 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+/* Japanese Minimalism Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 35 25% 98%; /* Matcha cream #FAF8F0 */
+    --foreground: 20 14% 20%; /* Dark charcoal for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 35 25% 98%;
+    --card-foreground: 20 14% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 35 25% 98%;
+    --popover-foreground: 20 14% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 85 30% 45%; /* Muted sage green */
+    --primary-foreground: 35 25% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 25 15% 90%; /* Warm neutral */
+    --secondary-foreground: 20 14% 20%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 25 15% 90%;
+    --muted-foreground: 20 14% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 85 20% 85%; /* Very light sage */
+    --accent-foreground: 20 14% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 50% 65%; /* Muted red */
+    --destructive-foreground: 35 25% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 25 15% 85%; /* Soft neutral border */
+    --input: 25 15% 90%;
+    --ring: 85 30% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem; /* Smaller radius for minimalism */
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 35 25% 98%;
+    --sidebar-foreground: 20 14% 20%;
+    --sidebar-primary: 85 30% 45%;
+    --sidebar-primary-foreground: 35 25% 98%;
+    --sidebar-accent: 25 15% 90%;
+    --sidebar-accent-foreground: 20 14% 20%;
+    --sidebar-border: 25 15% 85%;
+    --sidebar-ring: 85 30% 45%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 20 14% 8%;
+    --foreground: 35 25% 95%;
+    --card: 20 14% 8%;
+    --card-foreground: 35 25% 95%;
+    --popover: 20 14% 8%;
+    --popover-foreground: 35 25% 95%;
+    --primary: 85 30% 60%;
+    --primary-foreground: 20 14% 8%;
+    --secondary: 20 14% 15%;
+    --secondary-foreground: 35 25% 95%;
+    --muted: 20 14% 15%;
+    --muted-foreground: 35 25% 70%;
+    --accent: 20 14% 15%;
+    --accent-foreground: 35 25% 95%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 35 25% 95%;
+    --border: 20 14% 15%;
+    --input: 20 14% 15%;
+    --ring: 85 30% 60%;
+    --sidebar-background: 20 14% 8%;
+    --sidebar-foreground: 35 25% 95%;
+    --sidebar-primary: 85 30% 60%;
+    --sidebar-primary-foreground: 20 14% 8%;
+    --sidebar-accent: 20 14% 15%;
+    --sidebar-accent-foreground: 35 25% 95%;
+    --sidebar-border: 20 14% 15%;
+    --sidebar-ring: 85 30% 60%;
   }
 }
 
@@ -99,24 +85,52 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
-/* Custom gradient animation - very slow and subtle */
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 100% 50%;
-  }
-  50% {
-    background-position: 200% 50%;
-  }
-  75% {
-    background-position: 300% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* Hand-drawn, sketch-like elements */
+.sketch-border {
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  position: relative;
+}
+
+.sketch-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.3;
+  transform: rotate(0.5deg);
+}
+
+/* Soft, organic shapes */
+.organic-shape {
+  border-radius: 8px 12px 10px 6px;
+}
+
+/* Japanese minimalist spacing */
+.zen-spacing {
+  padding: 2rem;
+  margin: 1.5rem 0;
+}
+
+/* Subtle texture overlay */
+.textured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,.1) 1px, transparent 0);
+  background-size: 20px 20px;
+  opacity: 0.03;
+  pointer-events: none;
 }
