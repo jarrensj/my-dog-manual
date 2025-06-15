@@ -179,7 +179,7 @@ const Index = () => {
                   <div
                     className={`w-2 h-2 ${
                       currentStep === step
-                        ? 'bg-primary'
+                        ? `bg-primary ${currentStep !== 'manage' ? 'animate-pulse' : ''}`
                         : index < ['dog-info', 'add-commands', 'export', 'manage'].indexOf(currentStep)
                         ? 'bg-primary/60'
                         : 'bg-muted'
