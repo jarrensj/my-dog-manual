@@ -4,6 +4,7 @@ import { useToast } from '@/hooks/use-toast';
 import { DogCommand } from '@/types/dogCommand';
 import { loadStorageData, saveStorageData } from '@/utils/storage';
 import { exportTextGuide, exportPDFGuide } from '@/utils/exportUtils';
+import { Github } from 'lucide-react';
 import AppHeader from '@/components/AppHeader';
 import DogInfoStep from '@/components/DogInfoStep';
 import AddCommandsStep from '@/components/AddCommandsStep';
@@ -210,6 +211,17 @@ const Index = () => {
             <span className="text-xs opacity-75">
               # Made for keeping your furry friend safe and happy 🐕
             </span>
+          </div>
+          <div className="mt-4">
+            <a 
+              href="https://github.com/jarrensj/my-dog-manual" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-mono text-sm"
+            >
+              <Github className="w-4 h-4" />
+              View on GitHub
+            </a>
           </div>
         </div>
       </div>
