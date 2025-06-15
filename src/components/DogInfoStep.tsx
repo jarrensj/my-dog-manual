@@ -42,14 +42,16 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
             
             <div>
               <Label htmlFor="dogName" className="text-primary font-mono text-sm mb-2 block">
-                DOG_NAME=
+                DOG_NAME= <span className="text-destructive">*required</span>
               </Label>
               <Input
                 id="dogName"
                 value={dogName}
                 onChange={(e) => setDogName(e.target.value)}
                 placeholder="Enter dog identifier"
-                className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
+                className={`terminal-border border-muted bg-input text-foreground font-mono focus:border-primary ${
+                  !dogName.trim() ? 'pulse-required' : ''
+                }`}
                 required
               />
             </div>

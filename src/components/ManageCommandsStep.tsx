@@ -123,27 +123,31 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
             <div className="space-y-4">
               <div>
                 <Label htmlFor="command" className="text-primary font-mono text-sm mb-2 block">
-                  COMMAND=
+                  COMMAND= <span className="text-destructive">*required</span>
                 </Label>
                 <Input
                   id="command"
                   value={currentCommand.command}
                   onChange={(e) => setCurrentCommand({...currentCommand, command: e.target.value})}
                   placeholder="Enter command"
-                  className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
+                  className={`terminal-border border-muted bg-input text-foreground font-mono focus:border-primary ${
+                    !currentCommand.command.trim() ? 'pulse-required' : ''
+                  }`}
                 />
               </div>
 
               <div>
                 <Label htmlFor="description" className="text-primary font-mono text-sm mb-2 block">
-                  DESCRIPTION=
+                  DESCRIPTION= <span className="text-destructive">*required</span>
                 </Label>
                 <Textarea
                   id="description"
                   value={currentCommand.description}
                   onChange={(e) => setCurrentCommand({...currentCommand, description: e.target.value})}
                   placeholder="Define expected behavior"
-                  className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[80px] resize-none"
+                  className={`terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[80px] resize-none ${
+                    !currentCommand.description.trim() ? 'pulse-required' : ''
+                  }`}
                 />
               </div>
 
