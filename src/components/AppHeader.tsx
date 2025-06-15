@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Terminal, Code } from 'lucide-react';
 
@@ -11,11 +10,11 @@ const AppHeader: React.FC = () => {
         </div>
         <div className="p-6">
           <div className="ascii-art text-primary mb-4">
-{`    /\_/\      /\_/\
-   ( o.o )    ( ^.^ )
-    > ^ <      > ^ <
-   /     \    /     \
-  (  ===  )  (  ===  )`}
+{`      /^-^\     /^-----^\\
+     /  o o \\   /  o   o  \\
+    (    ^    ) (    __    )
+     \\  ---  /   \\  \\__/  /
+      ~~~~~~       ~~~~~~`}
           </div>
           <div className="flex items-center justify-center gap-4 mb-4">
             <Terminal className="w-6 h-6 text-primary" />
