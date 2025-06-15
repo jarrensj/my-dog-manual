@@ -14,7 +14,6 @@ interface DogCommand {
   command: string;
   description: string;
   whenToUse: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
 }
 
 const STORAGE_KEY = 'dogCommandGuide';
@@ -26,8 +25,7 @@ const Index = () => {
   const [currentCommand, setCurrentCommand] = useState({
     command: '',
     description: '',
-    whenToUse: '',
-    difficulty: 'Easy' as const
+    whenToUse: ''
   });
   const { toast } = useToast();
 
@@ -75,8 +73,7 @@ const Index = () => {
     setCurrentCommand({
       command: '',
       description: '',
-      whenToUse: '',
-      difficulty: 'Easy'
+      whenToUse: ''
     });
 
     toast({
@@ -168,30 +165,17 @@ const Index = () => {
     
     yPosition += 10;
 
-    // Group commands by difficulty
-    const easy = commands.filter(cmd => cmd.difficulty === 'Easy');
-    const medium = commands.filter(cmd => cmd.difficulty === 'Medium');
-    const hard = commands.filter(cmd => cmd.difficulty === 'Hard');
-
-    const addSection = (title: string, commandList: DogCommand[], color: string) => {
-      if (commandList.length === 0) return;
-      
+    // Commands list
+    addText('📋 COMMANDS', 16, true, '#7c3aed');
+    
+    commands.forEach((cmd, index) => {
+      addText(`${index + 1}. ${cmd.command.toUpperCase()}`, 14, true);
+      addText(`What it does: ${cmd.description}`, 11);
+      if (cmd.whenToUse.trim()) {
+        addText(`When to use: ${cmd.whenToUse}`, 11, false, '#6b7280');
+      }
       yPosition += 5;
-      addText(title, 16, true, color);
-      
-      commandList.forEach((cmd, index) => {
-        addText(`${index + 1}. ${cmd.command.toUpperCase()}`, 14, true);
-        addText(`What it does: ${cmd.description}`, 11);
-        if (cmd.whenToUse.trim()) {
-          addText(`When to use: ${cmd.whenToUse}`, 11, false, '#6b7280');
-        }
-        yPosition += 5;
-      });
-    };
-
-    addSection('🟢 EASY COMMANDS', easy, '#16a34a');
-    addSection('🟡 MEDIUM COMMANDS', medium, '#ca8a04');
-    addSection('🔴 ADVANCED COMMANDS', hard, '#dc2626');
+    });
 
     // Tips section
     yPosition += 10;
@@ -222,27 +206,16 @@ const Index = () => {
     
     content += `This guide contains ${commands.length} command${commands.length !== 1 ? 's' : ''} to help you communicate effectively with ${dogName || 'your dog'}.\n\n`;
 
-    // Group by difficulty
-    const easy = commands.filter(cmd => cmd.difficulty === 'Easy');
-    const medium = commands.filter(cmd => cmd.difficulty === 'Medium');
-    const hard = commands.filter(cmd => cmd.difficulty === 'Hard');
-
-    const addSection = (title: string, commandList: DogCommand[]) => {
-      if (commandList.length === 0) return;
-      content += `${title}\n${'-'.repeat(title.length)}\n\n`;
-      commandList.forEach((cmd, index) => {
-        content += `${index + 1}. ${cmd.command.toUpperCase()}\n`;
-        content += `   What it does: ${cmd.description}\n`;
-        if (cmd.whenToUse.trim()) {
-          content += `   When to use: ${cmd.whenToUse}\n`;
-        }
-        content += '\n';
-      });
-    };
-
-    addSection('🟢 EASY COMMANDS', easy);
-    addSection('🟡 MEDIUM COMMANDS', medium);
-    addSection('🔴 ADVANCED COMMANDS', hard);
+    // Commands list
+    content += `📋 COMMANDS\n${'-'.repeat(12)}\n\n`;
+    commands.forEach((cmd, index) => {
+      content += `${index + 1}. ${cmd.command.toUpperCase()}\n`;
+      content += `   What it does: ${cmd.description}\n`;
+      if (cmd.whenToUse.trim()) {
+        content += `   When to use: ${cmd.whenToUse}\n`;
+      }
+      content += '\n';
+    });
 
     content += `\nTips for Success:\n`;
     content += `• Be consistent with your commands\n`;
@@ -254,15 +227,6 @@ const Index = () => {
     content += `Date: ${new Date().toLocaleDateString()}\n`;
 
     return content;
-  };
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Easy': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Hard': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
   };
 
   return (
@@ -367,26 +331,6 @@ const Index = () => {
                   />
                 </div>
 
-                <div>
-                  <Label className="text-sm font-medium text-gray-700">Difficulty Level</Label>
-                  <div className="flex gap-2 mt-2">
-                    {['Easy', 'Medium', 'Hard'].map((level) => (
-                      <Button
-                        key={level}
-                        variant={currentCommand.difficulty === level ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setCurrentCommand({...currentCommand, difficulty: level as any})}
-                        className={currentCommand.difficulty === level ? 
-                          "bg-blue-600 hover:bg-blue-700" : 
-                          "hover:bg-blue-50"
-                        }
-                      >
-                        {level}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
                 <Button 
                   onClick={addCommand}
                   className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2"
@@ -442,12 +386,7 @@ const Index = () => {
                       <div key={command.id} className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <h3 className="font-semibold text-lg text-gray-800">{command.command}</h3>
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(command.difficulty)}`}>
-                                {command.difficulty}
-                              </span>
-                            </div>
+                            <h3 className="font-semibold text-lg text-gray-800 mb-2">{command.command}</h3>
                             <p className="text-gray-600 mb-2">{command.description}</p>
                             {command.whenToUse && (
                               <p className="text-sm text-gray-500">
@@ -470,37 +409,6 @@ const Index = () => {
                 )}
               </CardContent>
             </Card>
-
-            {/* Quick Stats */}
-            {commands.length > 0 && (
-              <Card className="border-2 border-purple-200 shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
-                  <CardTitle>Training Progress</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-green-600">
-                        {commands.filter(cmd => cmd.difficulty === 'Easy').length}
-                      </div>
-                      <div className="text-sm text-gray-600">Easy</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-yellow-600">
-                        {commands.filter(cmd => cmd.difficulty === 'Medium').length}
-                      </div>
-                      <div className="text-sm text-gray-600">Medium</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-red-600">
-                        {commands.filter(cmd => cmd.difficulty === 'Hard').length}
-                      </div>
-                      <div className="text-sm text-gray-600">Advanced</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </div>
         </div>
 
