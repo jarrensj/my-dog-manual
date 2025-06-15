@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Terminal, Code } from 'lucide-react';
 
@@ -19,15 +20,15 @@ const AppHeader: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-4">
             <Terminal className="w-6 h-6 text-primary" />
             <h1 className="text-2xl font-bold text-primary font-mono">
-              DOG CARE COMMAND CENTER
+              MY DOG MANUAL GENERATOR
             </h1>
             <Code className="w-6 h-6 text-primary" />
           </div>
           <div className="command-prompt text-foreground font-mono">
-            Initialize care protocol for your canine companion
+            Create personalized care guides for your furry friend
           </div>
           <p className="text-muted-foreground font-mono text-sm mt-2">
-            &gt; Creating comprehensive dog care manual...
+            &gt; Generating custom dog care manual...
           </p>
         </div>
       </div>
