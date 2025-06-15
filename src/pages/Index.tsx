@@ -17,6 +17,7 @@ const Index = () => {
   const [commands, setCommands] = useState<DogCommand[]>([]);
   const [dogName, setDogName] = useState('');
   const [ownerName, setOwnerName] = useState('');
+  const [careTips, setCareTips] = useState<string[]>([]);
   const { toast } = useToast();
 
   // Load data from localStorage on component mount
@@ -25,6 +26,7 @@ const Index = () => {
     setCommands(savedData.commands);
     setDogName(savedData.dogName);
     setOwnerName(savedData.ownerName);
+    setCareTips(savedData.careTips);
     
     // If we have data, start from manage step, otherwise start from beginning
     if (savedData.dogName && savedData.commands.length > 0) {
@@ -34,8 +36,8 @@ const Index = () => {
 
   // Save data to localStorage whenever state changes
   useEffect(() => {
-    saveStorageData({ commands, dogName, ownerName });
-  }, [commands, dogName, ownerName]);
+    saveStorageData({ commands, dogName, ownerName, careTips });
+  }, [commands, dogName, ownerName, careTips]);
 
   const handleDogInfoComplete = (name: string, owner: string) => {
     setDogName(name);
@@ -59,8 +61,16 @@ const Index = () => {
     });
   };
 
+  const updateCareTips = (newCareTips: string[]) => {
+    setCareTips(newCareTips);
+    toast({
+      title: "Care tips updated ✓",
+      description: "Changes have been saved."
+    });
+  };
+
   const handleExportText = () => {
-    exportTextGuide(commands, dogName, ownerName);
+    exportTextGuide(commands, dogName, ownerName, careTips);
     toast({
       title: "Manual exported as TXT ✓",
       description: "File downloaded successfully."
@@ -68,7 +78,7 @@ const Index = () => {
   };
 
   const handleExportPDF = () => {
-    exportPDFGuide(commands, dogName, ownerName);
+    exportPDFGuide(commands, dogName, ownerName, careTips);
     toast({
       title: "Manual exported as PDF ✓",
       description: "File downloaded successfully."
@@ -122,8 +132,10 @@ const Index = () => {
             dogName={dogName}
             ownerName={ownerName}
             commands={commands}
+            careTips={careTips}
             onAddCommand={addCommand}
             onRemoveCommand={removeCommand}
+            onUpdateCareTips={updateCareTips}
             onExportText={handleExportText}
             onExportPDF={handleExportPDF}
             onStartOver={() => {
@@ -131,6 +143,13 @@ const Index = () => {
               setCommands([]);
               setDogName('');
               setOwnerName('');
+              setCareTips([
+                'Use a calm, confident voice when giving commands',
+                'Always supervise interactions with the dog',
+                'If the dog seems anxious or confused, give them space',
+                'Contact the owner immediately if any problems arise',
+                'Keep emergency contact information handy'
+              ]);
             }}
           />
         );

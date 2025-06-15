@@ -5,15 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Download, Trash2, FileText, Plus, RotateCcw, Terminal } from 'lucide-react';
+import { Download, Trash2, FileText, Plus, RotateCcw, Terminal, Settings, Edit3 } from 'lucide-react';
 import { DogCommand } from '@/types/dogCommand';
 
 interface ManageCommandsStepProps {
   dogName: string;
   ownerName: string;
   commands: DogCommand[];
+  careTips: string[];
   onAddCommand: (command: DogCommand) => void;
   onRemoveCommand: (id: string) => void;
+  onUpdateCareTips: (careTips: string[]) => void;
   onExportText: () => void;
   onExportPDF: () => void;
   onStartOver: () => void;
@@ -23,18 +25,22 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
   dogName,
   ownerName,
   commands,
+  careTips,
   onAddCommand,
   onRemoveCommand,
+  onUpdateCareTips,
   onExportText,
   onExportPDF,
   onStartOver
 }) => {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showCareTipsForm, setShowCareTipsForm] = useState(false);
   const [currentCommand, setCurrentCommand] = useState({
     command: '',
     description: '',
     whenToUse: ''
   });
+  const [editingCareTips, setEditingCareTips] = useState<string[]>([]);
 
   const handleAddCommand = () => {
     if (!currentCommand.command.trim() || !currentCommand.description.trim()) {
@@ -55,6 +61,30 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
     setShowAddForm(false);
   };
 
+  const handleEditCareTips = () => {
+    setEditingCareTips([...careTips]);
+    setShowCareTipsForm(true);
+  };
+
+  const handleSaveCareTips = () => {
+    onUpdateCareTips(editingCareTips.filter(tip => tip.trim() !== ''));
+    setShowCareTipsForm(false);
+  };
+
+  const handleAddCareTip = () => {
+    setEditingCareTips([...editingCareTips, '']);
+  };
+
+  const handleUpdateCareTip = (index: number, value: string) => {
+    const updated = [...editingCareTips];
+    updated[index] = value;
+    setEditingCareTips(updated);
+  };
+
+  const handleRemoveCareTip = (index: number) => {
+    setEditingCareTips(editingCareTips.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header with dog info and actions */}
@@ -70,6 +100,8 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
               &gt; Owner: {ownerName || 'undefined'}
               <br />
               &gt; Commands loaded: {commands.length}
+              <br />
+              &gt; Care tips: {careTips.length}
             </div>
             <div className="flex gap-2">
               <Button
@@ -100,6 +132,14 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
             >
               <Plus className="w-4 h-4 mr-2" />
               ADD COMMAND
+            </Button>
+            <Button
+              onClick={handleEditCareTips}
+              variant="outline"
+              className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
+            >
+              <Edit3 className="w-4 h-4 mr-2" />
+              EDIT TIPS
             </Button>
             <Button
               onClick={onStartOver}
@@ -186,6 +226,69 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
         </Card>
       )}
 
+      {/* Edit care tips form */}
+      {showCareTipsForm && (
+        <Card className="terminal-border border-muted bg-card">
+          <div className="terminal-header">
+            <span className="text-primary font-bold">care_tips.cfg</span>
+          </div>
+          <CardContent className="terminal-spacing">
+            <div className="space-y-4">
+              <div className="text-primary font-mono text-sm mb-4">
+                CARE_TIPS_CONFIG=
+              </div>
+              
+              {editingCareTips.map((tip, index) => (
+                <div key={index} className="flex gap-2">
+                  <Input
+                    value={tip}
+                    onChange={(e) => handleUpdateCareTip(index, e.target.value)}
+                    placeholder="Enter care tip"
+                    className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
+                  />
+                  <Button
+                    onClick={() => handleRemoveCareTip(index)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10 font-mono"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleAddCareTip}
+                  variant="outline"
+                  size="sm"
+                  className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  ADD TIP
+                </Button>
+              </div>
+
+              <div className="flex gap-3 pt-4 border-t border-muted">
+                <Button 
+                  onClick={handleSaveCareTips}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-bold terminal-border border-primary"
+                >
+                  SAVE TIPS
+                </Button>
+                <Button 
+                  onClick={() => setShowCareTipsForm(false)}
+                  variant="outline"
+                  className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
+                >
+                  CANCEL
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Commands list */}
       <Card className="terminal-border border-muted bg-card">
         <div className="terminal-header">
@@ -229,6 +332,22 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
               ))}
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Care tips display */}
+      <Card className="terminal-border border-muted bg-card">
+        <div className="terminal-header">
+          <span className="text-primary font-bold">care_tips.txt</span>
+        </div>
+        <CardContent className="terminal-spacing">
+          <div className="space-y-2">
+            {careTips.map((tip, index) => (
+              <div key={index} className="text-foreground font-mono text-sm">
+                • {tip}
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>

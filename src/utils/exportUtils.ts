@@ -2,7 +2,7 @@
 import { DogCommand } from '@/types/dogCommand';
 import jsPDF from 'jspdf';
 
-export const generateGuideContent = (commands: DogCommand[], dogName: string, ownerName: string) => {
+export const generateGuideContent = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
   const cleanDogName = dogName.trim() || 'Dog';
   const title = `${cleanDogName} Care Guide for Babysitters & Caretakers`;
   const subtitle = ownerName.trim() ? `Owner: ${ownerName.trim()}` : 'Dog Care Instructions';
@@ -24,11 +24,10 @@ export const generateGuideContent = (commands: DogCommand[], dogName: string, ow
   });
 
   content += `\nIMPORTANT CARE TIPS:\n`;
-  content += `• Use a calm, confident voice when giving commands\n`;
-  content += `• Always supervise interactions with ${cleanDogName}\n`;
-  content += `• If the dog seems anxious or confused, give them space\n`;
-  content += `• Contact the owner immediately if any problems arise\n`;
-  content += `• Keep emergency contact information handy\n\n`;
+  careTips.forEach(tip => {
+    content += `• ${tip}\n`;
+  });
+  content += '\n';
   
   content += `Generated with love by Dog Care Guide Builder\n`;
   content += `Date: ${new Date().toLocaleDateString()}\n`;
@@ -36,8 +35,8 @@ export const generateGuideContent = (commands: DogCommand[], dogName: string, ow
   return content;
 };
 
-export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerName: string) => {
-  const guideContent = generateGuideContent(commands, dogName, ownerName);
+export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
+  const guideContent = generateGuideContent(commands, dogName, ownerName, careTips);
   const blob = new Blob([guideContent], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -50,7 +49,7 @@ export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerNa
   URL.revokeObjectURL(url);
 };
 
-export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string) => {
+export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.width;
   const pageHeight = pdf.internal.pageSize.height;
@@ -115,11 +114,9 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   // Care tips section
   yPosition += 10;
   addText('Important Care Tips:', 16, true, '#7c3aed');
-  addText('• Use a calm, confident voice when giving commands', 11);
-  addText(`• Always supervise interactions with ${cleanDogName}`, 11);
-  addText('• If the dog seems anxious or confused, give them space', 11);
-  addText('• Contact the owner immediately if any problems arise', 11);
-  addText('• Keep emergency contact information handy', 11);
+  careTips.forEach(tip => {
+    addText(`• ${tip}`, 11);
+  });
 
   // Footer
   yPosition += 15;

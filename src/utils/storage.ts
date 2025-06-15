@@ -7,6 +7,7 @@ export interface StorageData {
   commands: DogCommand[];
   dogName: string;
   ownerName: string;
+  careTips: string[];
 }
 
 export const loadStorageData = (): StorageData => {
@@ -17,13 +18,31 @@ export const loadStorageData = (): StorageData => {
       return {
         commands: parsed.commands || [],
         dogName: parsed.dogName || '',
-        ownerName: parsed.ownerName || ''
+        ownerName: parsed.ownerName || '',
+        careTips: parsed.careTips || [
+          'Use a calm, confident voice when giving commands',
+          'Always supervise interactions with the dog',
+          'If the dog seems anxious or confused, give them space',
+          'Contact the owner immediately if any problems arise',
+          'Keep emergency contact information handy'
+        ]
       };
     } catch (error) {
       console.error('Error loading saved data:', error);
     }
   }
-  return { commands: [], dogName: '', ownerName: '' };
+  return { 
+    commands: [], 
+    dogName: '', 
+    ownerName: '',
+    careTips: [
+      'Use a calm, confident voice when giving commands',
+      'Always supervise interactions with the dog',
+      'If the dog seems anxious or confused, give them space',
+      'Contact the owner immediately if any problems arise',
+      'Keep emergency contact information handy'
+    ]
+  };
 };
 
 export const saveStorageData = (data: StorageData) => {
