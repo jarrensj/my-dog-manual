@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +16,8 @@ interface DogCommand {
   difficulty: 'Easy' | 'Medium' | 'Hard';
 }
 
+const STORAGE_KEY = 'dogCommandGuide';
+
 const Index = () => {
   const [commands, setCommands] = useState<DogCommand[]>([]);
   const [dogName, setDogName] = useState('');
@@ -28,6 +29,31 @@ const Index = () => {
     difficulty: 'Easy' as const
   });
   const { toast } = useToast();
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        setCommands(parsed.commands || []);
+        setDogName(parsed.dogName || '');
+        setOwnerName(parsed.ownerName || '');
+      } catch (error) {
+        console.error('Error loading saved data:', error);
+      }
+    }
+  }, []);
+
+  // Save data to localStorage whenever state changes
+  useEffect(() => {
+    const dataToSave = {
+      commands,
+      dogName,
+      ownerName
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+  }, [commands, dogName, ownerName]);
 
   const addCommand = () => {
     if (!currentCommand.command.trim() || !currentCommand.description.trim()) {
