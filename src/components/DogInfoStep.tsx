@@ -19,24 +19,24 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
 }) => {
   const [dogName, setDogName] = useState(initialDogName);
   const [ownerName, setOwnerName] = useState(initialOwnerName);
-  const [emergencyPhone, setEmergencyPhone] = useState('');
-  const [emergencyEmail, setEmergencyEmail] = useState('');
-  const [isEmergencyExpanded, setIsEmergencyExpanded] = useState(false);
+  // const [emergencyPhone, setEmergencyPhone] = useState('');
+  // const [emergencyEmail, setEmergencyEmail] = useState('');
+  // const [isEmergencyExpanded, setIsEmergencyExpanded] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!dogName.trim()) {
       return;
     }
-    onComplete(dogName.trim(), ownerName.trim(), emergencyPhone.trim() || undefined, emergencyEmail.trim() || undefined);
+    onComplete(dogName.trim(), ownerName.trim());
   };
 
-  const toggleEmergencySection = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log('Emergency section clicked, current state:', isEmergencyExpanded);
-    setIsEmergencyExpanded(!isEmergencyExpanded);
-  };
+  // const toggleEmergencySection = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   console.log('Emergency section clicked, current state:', isEmergencyExpanded);
+  //   setIsEmergencyExpanded(!isEmergencyExpanded);
+  // };
 
   return (
     <div className="max-w-xl mx-auto">
@@ -82,6 +82,8 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
               </p>
             </div>
 
+            {/* Emergency contact section - commented out for now */}
+            {/*
             <div className="border-t border-border pt-6">
               <button 
                 type="button"
@@ -131,6 +133,7 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
                 </div>
               )}
             </div>
+            */}
 
             <Button 
               type="submit"
