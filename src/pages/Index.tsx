@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DogCommand } from '@/types/dogCommand';
@@ -19,6 +18,8 @@ const Index = () => {
   const [dogName, setDogName] = useState('');
   const [ownerName, setOwnerName] = useState('');
   const [careTips, setCareTips] = useState<string[]>([]);
+  const [emergencyPhone, setEmergencyPhone] = useState<string | undefined>();
+  const [emergencyEmail, setEmergencyEmail] = useState<string | undefined>();
   const { toast } = useToast();
 
   // Load data from localStorage on component mount
@@ -28,6 +29,8 @@ const Index = () => {
     setDogName(savedData.dogName);
     setOwnerName(savedData.ownerName);
     setCareTips(savedData.careTips);
+    setEmergencyPhone(savedData.emergencyPhone);
+    setEmergencyEmail(savedData.emergencyEmail);
     
     // If we have data, start from manage step, otherwise start from beginning
     if (savedData.dogName && savedData.commands.length > 0) {
@@ -37,12 +40,14 @@ const Index = () => {
 
   // Save data to localStorage whenever state changes
   useEffect(() => {
-    saveStorageData({ commands, dogName, ownerName, careTips });
-  }, [commands, dogName, ownerName, careTips]);
+    saveStorageData({ commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail });
+  }, [commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail]);
 
-  const handleDogInfoComplete = (name: string, owner: string) => {
+  const handleDogInfoComplete = (name: string, owner: string, phone?: string, email?: string) => {
     setDogName(name);
     setOwnerName(owner);
+    setEmergencyPhone(phone);
+    setEmergencyEmail(email);
     setCurrentStep('add-commands');
   };
 
@@ -71,7 +76,7 @@ const Index = () => {
   };
 
   const handleExportText = () => {
-    exportTextGuide(commands, dogName, ownerName, careTips);
+    exportTextGuide(commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail);
     toast({
       title: "Manual exported as TXT ✓",
       description: "File downloaded successfully."
@@ -79,7 +84,7 @@ const Index = () => {
   };
 
   const handleExportPDF = () => {
-    exportPDFGuide(commands, dogName, ownerName, careTips);
+    exportPDFGuide(commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail);
     toast({
       title: "Manual exported as PDF ✓",
       description: "File downloaded successfully."
@@ -144,6 +149,8 @@ const Index = () => {
               setCommands([]);
               setDogName('');
               setOwnerName('');
+              setEmergencyPhone(undefined);
+              setEmergencyEmail(undefined);
               setCareTips([
                 'Use a calm, confident voice when giving commands',
                 'Always supervise interactions with the dog',

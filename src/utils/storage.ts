@@ -8,6 +8,8 @@ export interface StorageData {
   dogName: string;
   ownerName: string;
   careTips: string[];
+  emergencyPhone?: string;
+  emergencyEmail?: string;
 }
 
 export const loadStorageData = (): StorageData => {
@@ -25,7 +27,9 @@ export const loadStorageData = (): StorageData => {
           'If the dog seems anxious or confused, give them space',
           'Contact the owner immediately if any problems arise',
           'Keep emergency contact information handy'
-        ]
+        ],
+        emergencyPhone: parsed.emergencyPhone || undefined,
+        emergencyEmail: parsed.emergencyEmail || undefined
       };
     } catch (error) {
       console.error('Error loading saved data:', error);

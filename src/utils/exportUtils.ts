@@ -2,7 +2,7 @@
 import { DogCommand } from '@/types/dogCommand';
 import jsPDF from 'jspdf';
 
-export const generateGuideContent = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
+export const generateGuideContent = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[], emergencyPhone?: string, emergencyEmail?: string) => {
   const cleanDogName = dogName.trim() || 'Dog';
   const title = `${cleanDogName} Care Guide for Babysitters & Caretakers`;
   const subtitle = ownerName.trim() ? `Owner: ${ownerName.trim()}` : 'Dog Care Instructions';
@@ -11,6 +11,18 @@ export const generateGuideContent = (commands: DogCommand[], dogName: string, ow
   
   content += `This guide contains important information about ${cleanDogName} to help you provide the best care.\n`;
   content += `Please read through all commands and instructions before interacting with ${cleanDogName}.\n\n`;
+
+  // Emergency contact information
+  if (emergencyPhone || emergencyEmail) {
+    content += `EMERGENCY CONTACT INFORMATION\n${'-'.repeat(35)}\n`;
+    if (emergencyPhone) {
+      content += `Emergency Phone: ${emergencyPhone}\n`;
+    }
+    if (emergencyEmail) {
+      content += `Emergency Email: ${emergencyEmail}\n`;
+    }
+    content += '\n';
+  }
 
   // Commands list
   content += `COMMANDS & RESPONSES\n${'-'.repeat(25)}\n\n`;
@@ -35,8 +47,8 @@ export const generateGuideContent = (commands: DogCommand[], dogName: string, ow
   return content;
 };
 
-export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
-  const guideContent = generateGuideContent(commands, dogName, ownerName, careTips);
+export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[], emergencyPhone?: string, emergencyEmail?: string) => {
+  const guideContent = generateGuideContent(commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail);
   const blob = new Blob([guideContent], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -49,7 +61,7 @@ export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerNa
   URL.revokeObjectURL(url);
 };
 
-export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[]) => {
+export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[], emergencyPhone?: string, emergencyEmail?: string) => {
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.width;
   const pageHeight = pdf.internal.pageSize.height;
@@ -93,6 +105,18 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   addText(`Generated on ${new Date().toLocaleDateString()}`, 12, false, '#9ca3af');
   
   yPosition += 10;
+
+  // Emergency contact information
+  if (emergencyPhone || emergencyEmail) {
+    addText('EMERGENCY CONTACT INFORMATION', 16, true, '#dc2626');
+    if (emergencyPhone) {
+      addText(`Emergency Phone: ${cleanText(emergencyPhone)}`, 12, true);
+    }
+    if (emergencyEmail) {
+      addText(`Emergency Email: ${cleanText(emergencyEmail)}`, 12, true);
+    }
+    yPosition += 10;
+  }
 
   // Introduction
   addText(`This guide contains important information about ${cleanDogName} to help you provide the best care. Please read through all commands and instructions before interacting with ${cleanDogName}.`, 12);

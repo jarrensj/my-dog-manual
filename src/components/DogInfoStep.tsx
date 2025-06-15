@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -81,8 +82,7 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
               </p>
             </div>
 
-            {/* Emergency contact section - commented out for now */}
-            {/* <div className="border-t border-border pt-6">
+            <div className="border-t border-border pt-6">
               <button 
                 type="button"
                 onClick={toggleEmergencySection}
@@ -130,7 +130,7 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
                   </div>
                 </div>
               )}
-            </div> */}
+            </div>
 
             <Button 
               type="submit"
