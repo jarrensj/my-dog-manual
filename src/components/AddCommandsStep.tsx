@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -134,7 +135,7 @@ const AddCommandsStep: React.FC<AddCommandsStepProps> = ({
             
             <Button 
               onClick={onFinish}
-              className="w-full bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 hover:from-green-600 hover:via-green-700 hover:to-emerald-700 bg-[length:200%_100%] animate-[gradient_15s_ease-in-out_infinite] text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 border-2 border-green-400"
+              className="w-full bg-gradient-to-r from-green-500 via-green-600 to-emerald-600 hover:from-green-600 hover:via-green-700 hover:to-emerald-700 bg-[length:400%_100%] animate-[gradient_45s_ease-in-out_infinite] text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 border-2 border-green-400"
             >
               I'm Done Adding Commands
               <ArrowRight className="w-6 h-6 ml-2" />
