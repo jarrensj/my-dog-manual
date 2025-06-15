@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, FileText, ArrowRight, CheckCircle } from 'lucide-react';
+import { Download, FileText, ArrowRight, CheckCircle, Heart } from 'lucide-react';
 
 interface ExportStepProps {
   dogName: string;
@@ -21,47 +21,60 @@ const ExportStep: React.FC<ExportStepProps> = ({
 }) => {
   return (
     <div className="max-w-2xl mx-auto">
-      <Card className="border-2 border-green-200 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-green-500 to-green-600 text-white text-center">
-          <CardTitle className="flex items-center justify-center gap-2">
-            <CheckCircle className="w-6 h-6" />
-            Great! {dogName}'s Care Guide is Ready
+      <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
+        <CardHeader className="bg-primary/5 text-center pb-6">
+          <CardTitle className="flex items-center justify-center gap-3 text-primary font-light text-xl">
+            <CheckCircle className="w-6 h-6" strokeWidth={1.5} />
+            完了！{dogName}ちゃんのケアガイドができました
           </CardTitle>
+          <p className="text-sm text-muted-foreground font-light mt-2">
+            Great! {dogName}'s Care Guide is Ready
+          </p>
         </CardHeader>
-        <CardContent className="p-8 text-center">
-          <p className="text-gray-600 mb-6">
-            You've created a care guide with {commandCount} commands for {dogName}. 
-            Now you can export it to share with babysitters or caretakers.
+        <CardContent className="zen-spacing text-center">
+          <p className="text-muted-foreground mb-8 leading-relaxed font-light">
+            {dogName}ちゃんのために{commandCount}個のコマンドでケアガイドを作成しました。
+            <br />
+            ペットシッターさんや介護者さんと共有するためにエクスポートできます。
+            <br />
+            <span className="text-sm opacity-75 mt-2 block">
+              You've created a care guide with {commandCount} commands for {dogName}.
+              Now you can export it to share with babysitters or caretakers.
+            </span>
           </p>
           
-          <div className="grid md:grid-cols-2 gap-4 mb-8">
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
             <Button
               onClick={onExportText}
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 border-2 hover:bg-gray-50"
+              className="h-24 flex flex-col items-center justify-center gap-3 sketch-border border-primary/30 hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
             >
-              <FileText className="w-8 h-8 text-gray-600" />
-              <span className="font-medium">Export as Text</span>
-              <span className="text-xs text-gray-500">Simple text file</span>
+              <FileText className="w-8 h-8" strokeWidth={1.5} />
+              <div>
+                <span className="font-normal block">テキストでエクスポート</span>
+                <span className="text-xs opacity-75">Export as Text</span>
+              </div>
             </Button>
             
             <Button
               onClick={onExportPDF}
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center gap-2 border-2 hover:bg-gray-50"
+              className="h-24 flex flex-col items-center justify-center gap-3 sketch-border border-primary/30 hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
             >
-              <Download className="w-8 h-8 text-gray-600" />
-              <span className="font-medium">Export as PDF</span>
-              <span className="text-xs text-gray-500">Formatted document</span>
+              <Download className="w-8 h-8" strokeWidth={1.5} />
+              <div>
+                <span className="font-normal block">PDFでエクスポート</span>
+                <span className="text-xs opacity-75">Export as PDF</span>
+              </div>
             </Button>
           </div>
 
           <Button 
             onClick={onContinueToManage}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-normal py-4 text-base sketch-border border-primary/30 organic-shape shadow-none"
           >
-            Continue to Manage Commands
-            <ArrowRight className="w-5 h-5 ml-2" />
+            コマンドの管理に進む / Continue to Manage Commands
+            <ArrowRight className="w-5 h-5 ml-2" strokeWidth={1.5} />
           </Button>
         </CardContent>
       </Card>
