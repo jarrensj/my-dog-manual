@@ -138,7 +138,6 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
               variant="outline"
               className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
             >
-              <Edit3 className="w-4 h-4 mr-2" />
               EDIT TIPS
             </Button>
             <Button
@@ -231,6 +230,7 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
         <Card className="terminal-border border-muted bg-card">
           <div className="terminal-header">
             <span className="text-primary font-bold">care_tips.cfg</span>
+            <Edit3 className="w-4 h-4 text-primary ml-2" />
           </div>
           <CardContent className="terminal-spacing">
             <div className="space-y-4">
