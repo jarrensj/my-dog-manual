@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Plus, ArrowRight, Heart } from 'lucide-react';
+import { Plus, ArrowRight, Terminal } from 'lucide-react';
 import { DogCommand } from '@/types/dogCommand';
 
 interface AddCommandsStepProps {
@@ -46,98 +46,91 @@ const AddCommandsStep: React.FC<AddCommandsStepProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
-        <CardHeader className="bg-primary/5 text-center pb-6">
-          <CardTitle className="flex items-center justify-center gap-3 text-primary font-light text-xl">
-            <Heart className="w-5 h-5" strokeWidth={1.5} />
-            {dogName}ちゃんのコマンド
-          </CardTitle>
-          <p className="text-sm text-muted-foreground font-light mt-2">
-            Commands for {dogName}
-          </p>
-        </CardHeader>
-        <CardContent className="zen-spacing">
-          <p className="text-muted-foreground mb-8 text-center font-light leading-relaxed">
-            ペットシッターさんが{dogName}ちゃんとコミュニケーションを取るための
-            <br />
-            コマンドや指示を追加してください。
-          </p>
+    <div className="max-w-2xl mx-auto space-y-6">
+      <Card className="terminal-border border-primary bg-card">
+        <div className="terminal-header">
+          <span className="text-primary font-bold">command_input.sh</span>
+        </div>
+        <CardContent className="terminal-spacing">
+          <div className="text-primary font-mono mb-6">
+            &gt; Adding commands for: {dogName}
+            <span className="cursor"></span>
+          </div>
           
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <Label htmlFor="command" className="text-base font-normal text-foreground mb-3 block">
-                コマンド / Command *
+              <Label htmlFor="command" className="text-primary font-mono text-sm mb-2 block">
+                COMMAND=
               </Label>
               <Input
                 id="command"
                 value={currentCommand.command}
                 onChange={(e) => setCurrentCommand({...currentCommand, command: e.target.value})}
-                placeholder="例: おすわり, まて, おいで"
-                className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0"
+                placeholder="sit, stay, come, etc."
+                className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
               />
             </div>
 
             <div>
-              <Label htmlFor="description" className="text-base font-normal text-foreground mb-3 block">
-                このコマンドの意味 / Meaning *
+              <Label htmlFor="description" className="text-primary font-mono text-sm mb-2 block">
+                DESCRIPTION=
               </Label>
               <Textarea
                 id="description"
                 value={currentCommand.description}
                 onChange={(e) => setCurrentCommand({...currentCommand, description: e.target.value})}
-                placeholder="このコマンドで犬がどう反応するか説明してください"
-                className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0 min-h-[80px] resize-none"
+                placeholder="Define expected behavior when command is executed"
+                className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[80px] resize-none"
               />
             </div>
 
             <div>
-              <Label htmlFor="whenToUse" className="text-base font-normal text-foreground mb-3 block">
-                いつ使うか / When to Use (任意)
+              <Label htmlFor="whenToUse" className="text-primary font-mono text-sm mb-2 block">
+                USAGE_CONTEXT= (optional)
               </Label>
               <Textarea
                 id="whenToUse"
                 value={currentCommand.whenToUse}
                 onChange={(e) => setCurrentCommand({...currentCommand, whenToUse: e.target.value})}
-                placeholder="例: ご飯の前、興奮している時、散歩中"
-                className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0 min-h-[60px] resize-none"
+                placeholder="Before feeding, during walks, when excited, etc."
+                className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[60px] resize-none"
               />
             </div>
 
             <Button 
               onClick={handleAddCommand}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-normal py-3 sketch-border border-primary/30 organic-shape shadow-none"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-bold terminal-border border-primary"
               disabled={!currentCommand.command.trim() || !currentCommand.description.trim()}
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={1.5} />
-              コマンドを追加 / Add Command
+              <Plus className="w-4 h-4 mr-2" />
+              ADD COMMAND
             </Button>
           </div>
         </CardContent>
       </Card>
 
       {commands.length > 0 && (
-        <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
-          <CardHeader className="bg-accent/30 text-center pb-6">
-            <CardTitle className="text-primary font-light text-lg">
-              追加されたコマンド ({commands.length})
-            </CardTitle>
-            <p className="text-sm text-muted-foreground font-light">
-              Added Commands
-            </p>
-          </CardHeader>
-          <CardContent className="zen-spacing">
-            <div className="space-y-4 mb-8">
+        <Card className="terminal-border border-muted bg-card">
+          <div className="terminal-header">
+            <span className="text-primary font-bold">command_registry.log</span>
+          </div>
+          <CardContent className="terminal-spacing">
+            <div className="text-primary font-mono mb-4">
+              # Registered commands: {commands.length}
+            </div>
+            <div className="space-y-3 mb-6">
               {commands.map((command) => (
-                <div key={command.id} className="sketch-border border-primary/20 organic-shape p-4 bg-accent/10">
-                  <h4 className="font-normal text-foreground mb-2">「{command.command}」</h4>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    <span className="font-normal">意味:</span> {command.description}
-                  </p>
+                <div key={command.id} className="terminal-border border-muted bg-accent p-3">
+                  <div className="text-primary font-mono font-bold mb-1">
+                    &gt; {command.command}
+                  </div>
+                  <div className="text-foreground font-mono text-sm mb-1">
+                    Description: {command.description}
+                  </div>
                   {command.whenToUse && (
-                    <p className="text-xs text-muted-foreground">
-                      <span className="font-normal">使用場面:</span> {command.whenToUse}
-                    </p>
+                    <div className="text-muted-foreground font-mono text-xs">
+                      Context: {command.whenToUse}
+                    </div>
                   )}
                 </div>
               ))}
@@ -145,10 +138,10 @@ const AddCommandsStep: React.FC<AddCommandsStepProps> = ({
             
             <Button 
               onClick={onFinish}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-normal py-4 text-base sketch-border border-primary/30 organic-shape shadow-none"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-bold py-3 terminal-border border-primary"
             >
-              完了 / I'm Done Adding Commands
-              <ArrowRight className="w-5 h-5 ml-2" strokeWidth={1.5} />
+              COMPILE MANUAL
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </CardContent>
         </Card>

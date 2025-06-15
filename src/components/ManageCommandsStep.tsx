@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Download, Trash2, FileText, Users, Plus, RotateCcw, Heart } from 'lucide-react';
+import { Download, Trash2, FileText, Plus, RotateCcw, Terminal } from 'lucide-react';
 import { DogCommand } from '@/types/dogCommand';
 
 interface ManageCommandsStepProps {
@@ -56,60 +56,58 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-6">
       {/* Header with dog info and actions */}
-      <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
-        <CardHeader className="bg-primary/5 text-center pb-6">
-          <CardTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-primary font-light text-xl">
-              <Heart className="w-5 h-5" strokeWidth={1.5} />
-              {dogName}ちゃんのケアガイド
+      <Card className="terminal-border border-primary bg-card">
+        <div className="terminal-header">
+          <span className="text-primary font-bold">care_manual_manager.exe</span>
+        </div>
+        <CardContent className="terminal-spacing">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-primary font-mono">
+              &gt; Managing: {dogName}
+              <br />
+              &gt; Owner: {ownerName || 'undefined'}
+              <br />
+              &gt; Commands loaded: {commands.length}
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <Button
                 onClick={onExportText}
                 variant="outline"
                 size="sm"
-                className="sketch-border border-primary/30 bg-background hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
+                className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
               >
-                <FileText className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                <FileText className="w-4 h-4 mr-1" />
                 TXT
               </Button>
               <Button
                 onClick={onExportPDF}
                 variant="outline"
                 size="sm"
-                className="sketch-border border-primary/30 bg-background hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
+                className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
               >
-                <Download className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                <Download className="w-4 h-4 mr-1" />
                 PDF
               </Button>
             </div>
-          </CardTitle>
-          <p className="text-sm text-muted-foreground font-light mt-2">
-            飼い主: {ownerName || '未設定'} • {commands.length} コマンド
-            <br />
-            <span className="text-xs opacity-75">
-              Owner: {ownerName || 'Not specified'} • {commands.length} commands
-            </span>
-          </p>
-        </CardHeader>
-        <CardContent className="zen-spacing">
+          </div>
+          
           <div className="flex justify-center gap-4">
             <Button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-normal sketch-border border-primary/30 organic-shape shadow-none"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-bold terminal-border border-primary"
             >
-              <Plus className="w-4 h-4 mr-2" strokeWidth={1.5} />
-              コマンドを追加 / Add Commands
+              <Plus className="w-4 h-4 mr-2" />
+              ADD COMMAND
             </Button>
             <Button
               onClick={onStartOver}
               variant="outline"
-              className="sketch-border border-primary/30 bg-background hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
+              className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
             >
-              <RotateCcw className="w-4 h-4 mr-2" strokeWidth={1.5} />
-              最初から / Start Over
+              <RotateCcw className="w-4 h-4 mr-2" />
+              RESTART
             </Button>
           </div>
         </CardContent>
@@ -117,69 +115,66 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
 
       {/* Add command form */}
       {showAddForm && (
-        <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
-          <CardHeader className="bg-accent/30 text-center pb-6">
-            <CardTitle className="flex items-center justify-center gap-3 text-primary font-light text-xl">
-              <Plus className="w-5 h-5" strokeWidth={1.5} />
-              新しいコマンド / New Command
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="zen-spacing">
-            <div className="space-y-6">
+        <Card className="terminal-border border-muted bg-card">
+          <div className="terminal-header">
+            <span className="text-primary font-bold">new_command.cfg</span>
+          </div>
+          <CardContent className="terminal-spacing">
+            <div className="space-y-4">
               <div>
-                <Label htmlFor="command" className="text-base font-normal text-foreground mb-3 block">
-                  コマンド / Command *
+                <Label htmlFor="command" className="text-primary font-mono text-sm mb-2 block">
+                  COMMAND=
                 </Label>
                 <Input
                   id="command"
                   value={currentCommand.command}
                   onChange={(e) => setCurrentCommand({...currentCommand, command: e.target.value})}
-                  placeholder="例: おすわり, まて, おいで"
-                  className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0"
+                  placeholder="Enter command"
+                  className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary"
                 />
               </div>
 
               <div>
-                <Label htmlFor="description" className="text-base font-normal text-foreground mb-3 block">
-                  このコマンドの意味 / Meaning *
+                <Label htmlFor="description" className="text-primary font-mono text-sm mb-2 block">
+                  DESCRIPTION=
                 </Label>
                 <Textarea
                   id="description"
                   value={currentCommand.description}
                   onChange={(e) => setCurrentCommand({...currentCommand, description: e.target.value})}
-                  placeholder="このコマンドで犬がどう反応するか説明してください"
-                  className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0 min-h-[80px] resize-none"
+                  placeholder="Define expected behavior"
+                  className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[80px] resize-none"
                 />
               </div>
 
               <div>
-                <Label htmlFor="whenToUse" className="text-base font-normal text-foreground mb-3 block">
-                  いつ使うか / When to Use (任意)
+                <Label htmlFor="whenToUse" className="text-primary font-mono text-sm mb-2 block">
+                  USAGE_CONTEXT= (optional)
                 </Label>
                 <Textarea
                   id="whenToUse"
                   value={currentCommand.whenToUse}
                   onChange={(e) => setCurrentCommand({...currentCommand, whenToUse: e.target.value})}
-                  placeholder="例: ご飯の前、興奮している時、散歩中"
-                  className="sketch-border border-primary/20 bg-background focus:border-primary/40 focus:ring-0 min-h-[60px] resize-none"
+                  placeholder="When to use this command"
+                  className="terminal-border border-muted bg-input text-foreground font-mono focus:border-primary min-h-[60px] resize-none"
                 />
               </div>
 
               <div className="flex gap-3">
                 <Button 
                   onClick={handleAddCommand}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-normal sketch-border border-primary/30 organic-shape shadow-none"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-mono font-bold terminal-border border-primary"
                   disabled={!currentCommand.command.trim() || !currentCommand.description.trim()}
                 >
-                  <Plus className="w-4 h-4 mr-2" strokeWidth={1.5} />
-                  追加 / Add
+                  <Plus className="w-4 h-4 mr-2" />
+                  ADD
                 </Button>
                 <Button 
                   onClick={() => setShowAddForm(false)}
                   variant="outline"
-                  className="sketch-border border-primary/30 bg-background hover:bg-primary/10 text-primary font-normal shadow-none organic-shape"
+                  className="terminal-border border-muted bg-input text-foreground font-mono hover:border-primary"
                 >
-                  キャンセル / Cancel
+                  CANCEL
                 </Button>
               </div>
             </div>
@@ -188,46 +183,42 @@ const ManageCommandsStep: React.FC<ManageCommandsStepProps> = ({
       )}
 
       {/* Commands list */}
-      <Card className="sketch-border border-primary/30 shadow-none organic-shape relative textured">
-        <CardHeader className="bg-accent/20 text-center pb-6">
-          <CardTitle className="text-primary font-light text-xl">
-            すべてのコマンド ({commands.length})
-          </CardTitle>
-          <p className="text-sm text-muted-foreground font-light mt-2">
-            All Commands
-          </p>
-        </CardHeader>
-        <CardContent className="zen-spacing">
+      <Card className="terminal-border border-muted bg-card">
+        <div className="terminal-header">
+          <span className="text-primary font-bold">command_database.db</span>
+        </div>
+        <CardContent className="terminal-spacing">
           {commands.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              <Users className="w-12 h-12 mx-auto mb-4 opacity-30" strokeWidth={1} />
-              <p className="font-light mb-2">まだコマンドがありません。</p>
-              <p className="text-sm opacity-75">No commands added yet.</p>
-              <p className="text-sm font-light mt-2">「コマンドを追加」をクリックして始めましょう！</p>
+            <div className="text-center py-8 text-muted-foreground font-mono">
+              <Terminal className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <div>&gt; No commands in database</div>
+              <div className="text-xs mt-2"># Use ADD COMMAND to initialize</div>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {commands.map((command) => (
-                <div key={command.id} className="sketch-border border-primary/20 organic-shape p-6 bg-accent/10 relative">
+                <div key={command.id} className="terminal-border border-muted bg-accent p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-normal text-lg text-foreground mb-3">「{command.command}」</h3>
-                      <p className="text-muted-foreground mb-2 leading-relaxed">
-                        <span className="font-normal">意味 / Meaning:</span> {command.description}
-                      </p>
+                      <div className="text-primary font-mono font-bold mb-2">
+                        &gt; {command.command}
+                      </div>
+                      <div className="text-foreground font-mono text-sm mb-1">
+                        Description: {command.description}
+                      </div>
                       {command.whenToUse && (
-                        <p className="text-sm text-muted-foreground opacity-75">
-                          <span className="font-normal">使用場面 / When to use:</span> {command.whenToUse}
-                        </p>
+                        <div className="text-muted-foreground font-mono text-xs">
+                          Context: {command.whenToUse}
+                        </div>
                       )}
                     </div>
                     <Button
                       onClick={() => onRemoveCommand(command.id)}
                       variant="ghost"
                       size="sm"
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10 organic-shape"
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10 font-mono"
                     >
-                      <Trash2 className="w-4 h-4" strokeWidth={1.5} />
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
