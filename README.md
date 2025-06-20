@@ -11,3 +11,6 @@ npm install
 ```bash
 npm run dev
 ```
+
+## how to contribute
+Read [CONTRIBUTING.md](CONTRIBUTING.md)
