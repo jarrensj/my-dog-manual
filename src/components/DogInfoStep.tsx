@@ -100,19 +100,20 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
                   <p className="text-muted-foreground font-mono text-sm mb-3">
                     # Upload a photo of your dog
                   </p>
-                  <label htmlFor="dogPhoto" className="cursor-pointer">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-mono text-sm rounded border border-primary hover:bg-primary/20 transition-colors">
-                      <Upload className="w-4 h-4" />
-                      SELECT FILE
-                    </div>
-                  </label>
                   <Input
-                    id="dogPhoto"
+                    id="dogPhotoInput"
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoUpload}
                     className="hidden"
                   />
+                  <Label 
+                    htmlFor="dogPhotoInput" 
+                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-mono text-sm rounded border border-primary hover:bg-primary/20 transition-colors"
+                  >
+                    <Upload className="w-4 h-4" />
+                    SELECT FILE
+                  </Label>
                   <p className="text-muted-foreground font-mono text-xs mt-2">
                     # Supported formats: JPG, PNG, GIF
                   </p>
