@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DogCommand } from '@/types/dogCommand';
@@ -184,10 +185,10 @@ const Index = () => {
       <div className="container mx-auto px-6 py-8 max-w-4xl">
         <AppHeader />
         
-        {/* Terminal-style step indicator */}
+        {/* Terminal-style step indicator with standardized padding */}
         <div className="mb-8">
-          <div className="terminal-border border-muted bg-card p-4">
-            <div className="text-primary font-mono text-sm">
+          <div className="terminal-border border-muted bg-card p-6">
+            <div className="text-primary font-mono text-sm mb-3">
               &gt; Process status: 
               {currentStep === 'dog-info' && ' [1/5] System configuration'}
               {currentStep === 'care-tips' && ' [2/5] Care guidelines setup'}
@@ -195,7 +196,7 @@ const Index = () => {
               {currentStep === 'export' && ' [4/5] Manual compilation'}
               {currentStep === 'manage' && ' [5/5] Runtime management'}
             </div>
-            <div className="flex items-center mt-2 space-x-2">
+            <div className="flex items-center space-x-2">
               {['dog-info', 'care-tips', 'add-commands', 'export', 'manage'].map((step, index) => (
                 <div key={step} className="flex items-center">
                   <div

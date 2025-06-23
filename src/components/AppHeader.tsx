@@ -17,17 +17,17 @@ const AppHeader: React.FC = () => {
      \\  ---  /   \\  \\__/  /
       ~~~~~~       ~~~~~~`}
           </div>
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex items-center justify-center gap-4 mb-3">
             <Terminal className="w-6 h-6 text-primary" />
             <h1 className="text-2xl font-bold text-primary font-mono">
               MY DOG MANUAL GENERATOR
             </h1>
             <Code className="w-6 h-6 text-primary" />
           </div>
-          <div className="command-prompt text-foreground font-mono">
+          <div className="command-prompt text-foreground font-mono mb-2">
             Create personalized care guides for your furry friend
           </div>
-          <p className="text-muted-foreground font-mono text-sm mt-2">
+          <p className="text-muted-foreground font-mono text-sm">
             &gt; Generating custom dog care manual...
           </p>
         </div>
