@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -114,26 +113,24 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
                 DOG_PHOTO= (optional)
               </Label>
               {!dogPhoto ? (
-                <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center">
+                <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center relative">
                   <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                   <p className="text-muted-foreground font-mono text-sm mb-3">
                     # Upload a photo of your dog
                   </p>
-                  <Input
+                  <input
                     id="dogPhotoInput"
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoUpload}
-                    className="hidden"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
-                  <button
-                    type="button"
-                    onClick={handleFileButtonClick}
-                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-mono text-sm rounded border border-primary hover:bg-primary/20 transition-colors"
-                  >
-                    <Upload className="w-4 h-4" />
-                    SELECT FILE
-                  </button>
+                  <div className="relative z-0">
+                    <div className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-mono text-sm rounded border border-primary hover:bg-primary/20 transition-colors">
+                      <Upload className="w-4 h-4" />
+                      SELECT FILE
+                    </div>
+                  </div>
                   <p className="text-muted-foreground font-mono text-xs mt-2">
                     # Supported formats: JPG, PNG, GIF
                   </p>
