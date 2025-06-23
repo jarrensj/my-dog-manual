@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +7,49 @@
 
 @layer base {
   :root {
+    /* Light mode - Terminal green on light background */
+    --background: 250 250% 98%; /* Very light gray #FAFAFA */
+    --foreground: 120 100% 25%; /* Dark green terminal text #008000 */
+
+    --card: 0 0% 95%; /* Light gray #F5F5F5 */
+    --card-foreground: 120 100% 25%;
+
+    --popover: 0 0% 95%;
+    --popover-foreground: 120 100% 25%;
+
+    --primary: 120 100% 30%; /* Darker green for light mode #009900 */
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 90%; /* Light gray #E6E6E6 */
+    --secondary-foreground: 120 100% 25%;
+
+    --muted: 0 0% 90%;
+    --muted-foreground: 120 60% 35%; /* Medium green */
+
+    --accent: 0 0% 92%; /* Lighter accent #EBEBEB */
+    --accent-foreground: 120 100% 25%;
+
+    --destructive: 0 80% 50%; /* Red for errors */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 60% 40%; /* Green border */
+    --input: 0 0% 92%;
+    --ring: 120 100% 30%;
+
+    --radius: 0rem; /* Sharp corners for terminal look */
+
+    --sidebar-background: 250 250% 98%;
+    --sidebar-foreground: 120 100% 25%;
+    --sidebar-primary: 120 100% 30%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 0 0% 92%;
+    --sidebar-accent-foreground: 120 100% 25%;
+    --sidebar-border: 120 60% 40%;
+    --sidebar-ring: 120 100% 30%;
+  }
+
+  .dark {
+    /* Dark mode - Original terminal styling */
     --background: 0 0% 8%; /* Dark terminal background #141414 */
     --foreground: 120 100% 80%; /* Bright green terminal text #00FF00 */
 
@@ -34,39 +78,6 @@
     --input: 0 0% 15%;
     --ring: 120 100% 50%;
 
-    --radius: 0rem; /* Sharp corners for terminal look */
-
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 120 100% 80%;
-    --sidebar-primary: 120 100% 50%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 120 100% 80%;
-    --sidebar-border: 120 50% 30%;
-    --sidebar-ring: 120 100% 50%;
-  }
-
-  .dark {
-    /* Keep same values for consistent terminal look */
-    --background: 0 0% 8%;
-    --foreground: 120 100% 80%;
-    --card: 0 0% 12%;
-    --card-foreground: 120 100% 80%;
-    --popover: 0 0% 12%;
-    --popover-foreground: 120 100% 80%;
-    --primary: 120 100% 50%;
-    --primary-foreground: 0 0% 8%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 120 100% 80%;
-    --muted: 0 0% 20%;
-    --muted-foreground: 120 50% 60%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 120 100% 80%;
-    --destructive: 0 80% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 120 50% 30%;
-    --input: 0 0% 15%;
-    --ring: 120 100% 50%;
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 120 100% 80%;
     --sidebar-primary: 120 100% 50%;

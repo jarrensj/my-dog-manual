@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Terminal, Code } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 const AppHeader: React.FC = () => {
   return (
@@ -8,6 +8,9 @@ const AppHeader: React.FC = () => {
       <div className="terminal-border border-primary bg-card mb-8">
         <div className="terminal-header">
           <span className="text-primary font-bold">mydogmanual.com</span>
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
         </div>
         <div className="p-6">
           <div className="ascii-art text-primary mb-4">
