@@ -1,8 +1,6 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, X, ArrowRight } from 'lucide-react';
 
@@ -24,124 +22,109 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
   const [newTip, setNewTip] = useState('');
 
   const addTip = () => {
-    console.log('addTip called with:', newTip);
     if (newTip.trim()) {
-      const updatedTips = [...careTips, newTip.trim()];
-      console.log('Adding tip, new array:', updatedTips);
-      setCareTips(updatedTips);
+      setCareTips([...careTips, newTip.trim()]);
       setNewTip('');
     }
   };
 
   const removeTip = (index: number) => {
-    console.log('removeTip called with index:', index);
-    const updatedTips = careTips.filter((_, i) => i !== index);
-    console.log('Removing tip, new array:', updatedTips);
-    setCareTips(updatedTips);
+    setCareTips(careTips.filter((_, i) => i !== index));
   };
 
   const handleComplete = () => {
-    console.log('handleComplete called with tips:', careTips);
     onComplete(careTips);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    console.log('handleKeyDown called, key:', e.key);
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       addTip();
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log('handleInputChange called with:', e.target.value);
-    setNewTip(e.target.value);
-  };
-
   return (
-    <div className="max-w-2xl mx-auto">
-      <Card className="terminal-border">
-        <CardHeader>
-          <CardTitle className="text-primary font-mono">
-            &gt; Configure care guidelines
-          </CardTitle>
-          <CardDescription className="font-mono text-muted-foreground">
-            # Set up important care instructions for dog sitters
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-4">
-            <Label className="text-sm font-mono text-muted-foreground">
-              Current care tips:
-            </Label>
-            <div className="space-y-2">
-              {careTips.map((tip, index) => (
-                <div key={index} className="flex items-start gap-2 p-3 bg-muted/30 rounded-md">
-                  <span className="text-sm flex-1">{tip}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      console.log('Delete button clicked for index:', index);
-                      removeTip(index);
-                    }}
-                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0"
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ))}
-            </div>
+    <div className="max-w-4xl mx-auto">
+      <Card className="terminal-border border-primary bg-card">
+        <div className="terminal-header">
+          <span className="text-primary font-bold">care_tips.cfg</span>
+        </div>
+        <CardContent className="terminal-spacing">
+          <div className="text-primary font-mono mb-6">
+            &gt; Configuring care guidelines for dog sitters
+            <span className="cursor"></span>
           </div>
-
-          <div className="space-y-4">
-            <Label htmlFor="new-tip" className="text-sm font-mono text-muted-foreground">
-              Add new care tip:
-            </Label>
-            <div className="flex gap-3">
-              <Textarea
-                id="new-tip"
-                placeholder="Enter a care tip..."
-                value={newTip}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                className="flex-1 resize-none min-h-[80px]"
-                rows={2}
-              />
-              <Button
-                variant="outline"
-                onClick={() => {
-                  console.log('Add button clicked');
-                  addTip();
-                }}
-                disabled={!newTip.trim()}
-                className="self-start shrink-0 gap-2 font-mono"
-              >
-                <Plus className="h-4 w-4" />
-                Add Care Tip
-              </Button>
+          
+          <div className="space-y-6">
+            <div>
+              <Label className="text-primary font-mono text-sm mb-3 block">
+                CURRENT_CARE_TIPS= ({careTips.length})
+              </Label>
+              <div className="space-y-3">
+                {careTips.map((tip, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 bg-accent border border-muted rounded-md">
+                    <span className="text-sm flex-1 text-foreground font-mono leading-relaxed">{tip}</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        removeTip(index);
+                      }}
+                      className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors shrink-0"
+                      style={{ zIndex: 1001, position: 'relative' }}
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground font-mono">
-              # Press Enter to add tip, or click the "Add Care Tip" button above
-            </p>
-          </div>
 
-          {/* Visual separator */}
-          <div className="border-t border-border pt-6">
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-muted-foreground font-mono">
-                # Ready to proceed to command setup
-              </p>
-              <Button 
-                onClick={() => {
-                  console.log('Next button clicked');
+            <div>
+              <Label htmlFor="new-tip" className="text-primary font-mono text-sm mb-3 block">
+                ADD_NEW_TIP=
+              </Label>
+              <div className="flex gap-3">
+                <Textarea
+                  id="new-tip"
+                  placeholder="Enter a new care tip..."
+                  value={newTip}
+                  onChange={(e) => setNewTip(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 resize-none min-h-[80px] w-full rounded-md border border-muted bg-input px-4 py-3 text-sm text-foreground font-mono focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  rows={3}
+                  style={{ zIndex: 1000, position: 'relative' }}
+                />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    addTip();
+                  }}
+                  disabled={!newTip.trim()}
+                  className="self-start shrink-0 h-12 w-12 flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ zIndex: 1001, position: 'relative' }}
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-6 border-t border-muted">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   handleComplete();
                 }}
-                className="font-mono gap-2"
+                className="font-mono h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 flex items-center gap-2"
+                style={{ zIndex: 1001, position: 'relative' }}
               >
-                Next: Add Commands
+                CONTINUE &gt;
                 <ArrowRight className="h-4 w-4" />
-              </Button>
+              </button>
             </div>
           </div>
         </CardContent>
