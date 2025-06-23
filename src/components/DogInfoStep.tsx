@@ -32,18 +32,37 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('File input changed:', e.target.files);
     const file = e.target.files?.[0];
     if (file) {
+      console.log('File selected:', file.name, file.type, file.size);
       const reader = new FileReader();
       reader.onload = (event) => {
+        console.log('File read successfully');
         setDogPhoto(event.target?.result as string);
       };
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+      };
       reader.readAsDataURL(file);
+    } else {
+      console.log('No file selected');
     }
   };
 
   const removePhoto = () => {
     setDogPhoto(undefined);
+  };
+
+  const handleFileButtonClick = () => {
+    console.log('File button clicked');
+    const fileInput = document.getElementById('dogPhotoInput') as HTMLInputElement;
+    if (fileInput) {
+      console.log('File input found, triggering click');
+      fileInput.click();
+    } else {
+      console.error('File input not found');
+    }
   };
 
   return (
@@ -107,13 +126,14 @@ const DogInfoStep: React.FC<DogInfoStepProps> = ({
                     onChange={handlePhotoUpload}
                     className="hidden"
                   />
-                  <Label 
-                    htmlFor="dogPhotoInput" 
+                  <button
+                    type="button"
+                    onClick={handleFileButtonClick}
                     className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-mono text-sm rounded border border-primary hover:bg-primary/20 transition-colors"
                   >
                     <Upload className="w-4 h-4" />
                     SELECT FILE
-                  </Label>
+                  </button>
                   <p className="text-muted-foreground font-mono text-xs mt-2">
                     # Supported formats: JPG, PNG, GIF
                   </p>
