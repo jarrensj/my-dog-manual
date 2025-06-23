@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Plus, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Plus, X, ArrowRight } from 'lucide-react';
 
 interface CareTipsStepProps {
   initialCareTips: string[];
@@ -62,18 +64,18 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
               {careTips.map((tip, index) => (
                 <div key={index} className="flex items-start gap-2 p-3 bg-muted/30 rounded-md">
                   <span className="text-sm flex-1">{tip}</span>
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       removeTip(index);
                     }}
-                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0 hover:bg-accent rounded"
-                    style={{ zIndex: 1001, position: 'relative' }}
+                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0"
                   >
                     <X className="h-3 w-3" />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
@@ -83,7 +85,7 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
             <Label htmlFor="new-tip" className="text-sm font-mono text-muted-foreground">
               Add new care tip:
             </Label>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <textarea
                 id="new-tip"
                 placeholder="Enter a care tip..."
@@ -92,36 +94,44 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                 onKeyDown={handleKeyDown}
                 className="flex-1 resize-none min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 rows={2}
-                style={{ zIndex: 1000, position: 'relative' }}
               />
-              <button
-                type="button"
+              <Button
+                variant="outline"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   addTip();
                 }}
                 disabled={!newTip.trim()}
-                className="self-start shrink-0 h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                style={{ zIndex: 1001, position: 'relative' }}
+                className="self-start shrink-0 gap-2 font-mono"
               >
                 <Plus className="h-4 w-4" />
-              </button>
+                Add Tip
+              </Button>
             </div>
+            <p className="text-xs text-muted-foreground font-mono">
+              # Press Enter to add tip, or click the "Add Tip" button above
+            </p>
           </div>
 
-          <div className="flex justify-end pt-4">
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleComplete();
-              }}
-              className="font-mono h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              style={{ zIndex: 1001, position: 'relative' }}
-            >
-              Continue &gt;
-            </button>
+          {/* Visual separator */}
+          <div className="border-t border-border pt-6">
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-muted-foreground font-mono">
+                # Ready to proceed to command setup
+              </p>
+              <Button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleComplete();
+                }}
+                className="font-mono gap-2"
+              >
+                Next: Add Commands
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
