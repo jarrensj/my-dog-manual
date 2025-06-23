@@ -44,7 +44,7 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
     onComplete(careTips);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       addTip();
@@ -102,7 +102,7 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                   console.log('Textarea value changing to:', e.target.value);
                   setNewTip(e.target.value);
                 }}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 className="flex-1 resize-none"
                 rows={2}
               />
