@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DogCommand } from '@/types/dogCommand';
@@ -74,6 +73,14 @@ const Index = () => {
     });
   };
 
+  const updateCommand = (id: string, updatedCommand: DogCommand) => {
+    setCommands(commands.map(cmd => cmd.id === id ? updatedCommand : cmd));
+    toast({
+      title: "Command updated ✓",
+      description: `'${updatedCommand.command}' has been updated successfully.`
+    });
+  };
+
   const updateCareTips = (newCareTips: string[]) => {
     setCareTips(newCareTips);
     toast({
@@ -133,6 +140,8 @@ const Index = () => {
             dogName={dogName}
             commands={commands}
             onAddCommand={addCommand}
+            onRemoveCommand={removeCommand}
+            onUpdateCommand={updateCommand}
             onFinish={handleFinishAdding}
           />
         );
