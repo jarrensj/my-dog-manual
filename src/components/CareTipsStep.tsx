@@ -24,25 +24,38 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
   const [newTip, setNewTip] = useState('');
 
   const addTip = () => {
+    console.log('addTip called with:', newTip);
     if (newTip.trim()) {
-      setCareTips([...careTips, newTip.trim()]);
+      const updatedTips = [...careTips, newTip.trim()];
+      console.log('Adding tip, new array:', updatedTips);
+      setCareTips(updatedTips);
       setNewTip('');
     }
   };
 
   const removeTip = (index: number) => {
-    setCareTips(careTips.filter((_, i) => i !== index));
+    console.log('removeTip called with index:', index);
+    const updatedTips = careTips.filter((_, i) => i !== index);
+    console.log('Removing tip, new array:', updatedTips);
+    setCareTips(updatedTips);
   };
 
   const handleComplete = () => {
+    console.log('handleComplete called with tips:', careTips);
     onComplete(careTips);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    console.log('handleKeyDown called, key:', e.key);
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       addTip();
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    console.log('handleInputChange called with:', e.target.value);
+    setNewTip(e.target.value);
   };
 
   return (
@@ -68,7 +81,10 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeTip(index)}
+                    onClick={() => {
+                      console.log('Delete button clicked for index:', index);
+                      removeTip(index);
+                    }}
                     className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0"
                   >
                     <X className="h-3 w-3" />
@@ -87,14 +103,17 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                 id="new-tip"
                 placeholder="Enter a care tip..."
                 value={newTip}
-                onChange={(e) => setNewTip(e.target.value)}
+                onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 className="flex-1 resize-none min-h-[80px]"
                 rows={2}
               />
               <Button
                 variant="outline"
-                onClick={addTip}
+                onClick={() => {
+                  console.log('Add button clicked');
+                  addTip();
+                }}
                 disabled={!newTip.trim()}
                 className="self-start shrink-0 gap-2 font-mono"
               >
@@ -114,7 +133,10 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                 # Ready to proceed to command setup
               </p>
               <Button 
-                onClick={handleComplete}
+                onClick={() => {
+                  console.log('Next button clicked');
+                  handleComplete();
+                }}
                 className="font-mono gap-2"
               >
                 Next: Add Commands
