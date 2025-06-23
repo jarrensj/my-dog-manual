@@ -18,6 +18,7 @@ const Index = () => {
   const [commands, setCommands] = useState<DogCommand[]>([]);
   const [dogName, setDogName] = useState('');
   const [ownerName, setOwnerName] = useState('');
+  const [dogPhoto, setDogPhoto] = useState<string | undefined>();
   const [careTips, setCareTips] = useState<string[]>([]);
   const [emergencyPhone, setEmergencyPhone] = useState<string | undefined>();
   const [emergencyEmail, setEmergencyEmail] = useState<string | undefined>();
@@ -29,6 +30,7 @@ const Index = () => {
     setCommands(savedData.commands);
     setDogName(savedData.dogName);
     setOwnerName(savedData.ownerName);
+    setDogPhoto(savedData.dogPhoto);
     setCareTips(savedData.careTips);
     setEmergencyPhone(savedData.emergencyPhone);
     setEmergencyEmail(savedData.emergencyEmail);
@@ -41,12 +43,13 @@ const Index = () => {
 
   // Save data to localStorage whenever state changes
   useEffect(() => {
-    saveStorageData({ commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail });
-  }, [commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail]);
+    saveStorageData({ commands, dogName, ownerName, dogPhoto, careTips, emergencyPhone, emergencyEmail });
+  }, [commands, dogName, ownerName, dogPhoto, careTips, emergencyPhone, emergencyEmail]);
 
-  const handleDogInfoComplete = (name: string, owner: string, phone?: string, email?: string) => {
+  const handleDogInfoComplete = (name: string, owner: string, photo?: string, phone?: string, email?: string) => {
     setDogName(name);
     setOwnerName(owner);
+    setDogPhoto(photo);
     setEmergencyPhone(phone);
     setEmergencyEmail(email);
     setCurrentStep('care-tips');
@@ -124,6 +127,7 @@ const Index = () => {
           <DogInfoStep
             initialDogName={dogName}
             initialOwnerName={ownerName}
+            initialDogPhoto={dogPhoto}
             onComplete={handleDogInfoComplete}
           />
         );
@@ -172,6 +176,7 @@ const Index = () => {
               setCommands([]);
               setDogName('');
               setOwnerName('');
+              setDogPhoto(undefined);
               setEmergencyPhone(undefined);
               setEmergencyEmail(undefined);
               setCareTips([

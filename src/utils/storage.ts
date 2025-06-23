@@ -7,6 +7,7 @@ export interface StorageData {
   commands: DogCommand[];
   dogName: string;
   ownerName: string;
+  dogPhoto?: string;
   careTips: string[];
   emergencyPhone?: string;
   emergencyEmail?: string;
@@ -21,6 +22,7 @@ export const loadStorageData = (): StorageData => {
         commands: parsed.commands || [],
         dogName: parsed.dogName || '',
         ownerName: parsed.ownerName || '',
+        dogPhoto: parsed.dogPhoto || undefined,
         careTips: parsed.careTips || [
           'Use a calm, confident voice when giving commands',
           'Always supervise interactions with the dog',
@@ -39,6 +41,7 @@ export const loadStorageData = (): StorageData => {
     commands: [], 
     dogName: '', 
     ownerName: '',
+    dogPhoto: undefined,
     careTips: [
       'Use a calm, confident voice when giving commands',
       'Always supervise interactions with the dog',
