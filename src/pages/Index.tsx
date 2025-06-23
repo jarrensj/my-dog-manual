@@ -9,6 +9,7 @@ import DogInfoStep from '@/components/DogInfoStep';
 import AddCommandsStep from '@/components/AddCommandsStep';
 import ExportStep from '@/components/ExportStep';
 import ManageCommandsStep from '@/components/ManageCommandsStep';
+import CareTipsStep from '@/components/CareTipsStep';
 
 type FormStep = 'dog-info' | 'care-tips' | 'add-commands' | 'export' | 'manage';
 
