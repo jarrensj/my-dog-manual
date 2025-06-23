@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, X } from 'lucide-react';
@@ -25,18 +24,31 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
   const [newTip, setNewTip] = useState('');
 
   const addTip = () => {
+    console.log('Adding tip:', newTip);
     if (newTip.trim()) {
-      setCareTips([...careTips, newTip.trim()]);
+      const updatedTips = [...careTips, newTip.trim()];
+      console.log('Updated tips:', updatedTips);
+      setCareTips(updatedTips);
       setNewTip('');
     }
   };
 
   const removeTip = (index: number) => {
-    setCareTips(careTips.filter((_, i) => i !== index));
+    console.log('Removing tip at index:', index);
+    const updatedTips = careTips.filter((_, i) => i !== index);
+    console.log('Updated tips after removal:', updatedTips);
+    setCareTips(updatedTips);
   };
 
   const handleComplete = () => {
     onComplete(careTips);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      addTip();
+    }
   };
 
   return (
@@ -63,8 +75,12 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeTip(index)}
-                    className="h-auto p-1 text-muted-foreground hover:text-destructive"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      removeTip(index);
+                    }}
+                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0"
                   >
                     <X className="h-3 w-3" />
                   </Button>
@@ -82,15 +98,22 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
                 id="new-tip"
                 placeholder="Enter a care tip..."
                 value={newTip}
-                onChange={(e) => setNewTip(e.target.value)}
-                className="flex-1"
+                onChange={(e) => {
+                  console.log('Textarea value changing to:', e.target.value);
+                  setNewTip(e.target.value);
+                }}
+                onKeyPress={handleKeyPress}
+                className="flex-1 resize-none"
                 rows={2}
               />
               <Button
                 type="button"
-                onClick={addTip}
+                onClick={(e) => {
+                  e.preventDefault();
+                  addTip();
+                }}
                 disabled={!newTip.trim()}
-                className="self-start"
+                className="self-start shrink-0"
               >
                 <Plus className="h-4 w-4" />
               </Button>
