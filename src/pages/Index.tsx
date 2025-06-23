@@ -10,7 +10,7 @@ import AddCommandsStep from '@/components/AddCommandsStep';
 import ExportStep from '@/components/ExportStep';
 import ManageCommandsStep from '@/components/ManageCommandsStep';
 
-type FormStep = 'dog-info' | 'add-commands' | 'export' | 'manage';
+type FormStep = 'dog-info' | 'care-tips' | 'add-commands' | 'export' | 'manage';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<FormStep>('dog-info');
@@ -48,6 +48,11 @@ const Index = () => {
     setOwnerName(owner);
     setEmergencyPhone(phone);
     setEmergencyEmail(email);
+    setCurrentStep('care-tips');
+  };
+
+  const handleCareTipsComplete = (newCareTips: string[]) => {
+    setCareTips(newCareTips);
     setCurrentStep('add-commands');
   };
 
@@ -113,6 +118,13 @@ const Index = () => {
             onComplete={handleDogInfoComplete}
           />
         );
+      case 'care-tips':
+        return (
+          <CareTipsStep
+            initialCareTips={careTips}
+            onComplete={handleCareTipsComplete}
+          />
+        );
       case 'add-commands':
         return (
           <AddCommandsStep
@@ -176,27 +188,28 @@ const Index = () => {
           <div className="terminal-border border-muted bg-card p-4">
             <div className="text-primary font-mono text-sm">
               &gt; Process status: 
-              {currentStep === 'dog-info' && ' [1/4] System configuration'}
-              {currentStep === 'add-commands' && ' [2/4] Command registration'}
-              {currentStep === 'export' && ' [3/4] Manual compilation'}
-              {currentStep === 'manage' && ' [4/4] Runtime management'}
+              {currentStep === 'dog-info' && ' [1/5] System configuration'}
+              {currentStep === 'care-tips' && ' [2/5] Care guidelines setup'}
+              {currentStep === 'add-commands' && ' [3/5] Command registration'}
+              {currentStep === 'export' && ' [4/5] Manual compilation'}
+              {currentStep === 'manage' && ' [5/5] Runtime management'}
             </div>
             <div className="flex items-center mt-2 space-x-2">
-              {['dog-info', 'add-commands', 'export', 'manage'].map((step, index) => (
+              {['dog-info', 'care-tips', 'add-commands', 'export', 'manage'].map((step, index) => (
                 <div key={step} className="flex items-center">
                   <div
                     className={`w-2 h-2 ${
                       currentStep === step
                         ? `bg-primary ${currentStep !== 'manage' ? 'animate-pulse' : ''}`
-                        : index < ['dog-info', 'add-commands', 'export', 'manage'].indexOf(currentStep)
+                        : index < ['dog-info', 'care-tips', 'add-commands', 'export', 'manage'].indexOf(currentStep)
                         ? 'bg-primary/60'
                         : 'bg-muted'
                     }`}
                   />
-                  {index < 3 && (
+                  {index < 4 && (
                     <div
                       className={`w-8 h-px mx-2 ${
-                        index < ['dog-info', 'add-commands', 'export', 'manage'].indexOf(currentStep)
+                        index < ['dog-info', 'care-tips', 'add-commands', 'export', 'manage'].indexOf(currentStep)
                           ? 'bg-primary/60'
                           : 'bg-muted'
                       }`}
