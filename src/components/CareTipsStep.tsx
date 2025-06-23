@@ -1,9 +1,6 @@
-
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Plus, X } from 'lucide-react';
 
 interface CareTipsStepProps {
@@ -24,20 +21,14 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
   const [newTip, setNewTip] = useState('');
 
   const addTip = () => {
-    console.log('Adding tip:', newTip);
     if (newTip.trim()) {
-      const updatedTips = [...careTips, newTip.trim()];
-      console.log('Updated tips:', updatedTips);
-      setCareTips(updatedTips);
+      setCareTips([...careTips, newTip.trim()]);
       setNewTip('');
     }
   };
 
   const removeTip = (index: number) => {
-    console.log('Removing tip at index:', index);
-    const updatedTips = careTips.filter((_, i) => i !== index);
-    console.log('Updated tips after removal:', updatedTips);
-    setCareTips(updatedTips);
+    setCareTips(careTips.filter((_, i) => i !== index));
   };
 
   const handleComplete = () => {
@@ -71,19 +62,18 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
               {careTips.map((tip, index) => (
                 <div key={index} className="flex items-start gap-2 p-3 bg-muted/30 rounded-md">
                   <span className="text-sm flex-1">{tip}</span>
-                  <Button
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="sm"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       removeTip(index);
                     }}
-                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0"
+                    className="h-auto p-1 text-muted-foreground hover:text-destructive shrink-0 hover:bg-accent rounded"
+                    style={{ zIndex: 1001, position: 'relative' }}
                   >
                     <X className="h-3 w-3" />
-                  </Button>
+                  </button>
                 </div>
               ))}
             </div>
@@ -94,39 +84,44 @@ const CareTipsStep: React.FC<CareTipsStepProps> = ({ initialCareTips, onComplete
               Add new care tip:
             </Label>
             <div className="flex gap-2">
-              <Textarea
+              <textarea
                 id="new-tip"
                 placeholder="Enter a care tip..."
                 value={newTip}
-                onChange={(e) => {
-                  console.log('Textarea value changing to:', e.target.value);
-                  setNewTip(e.target.value);
-                }}
+                onChange={(e) => setNewTip(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="flex-1 resize-none"
+                className="flex-1 resize-none min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 rows={2}
+                style={{ zIndex: 1000, position: 'relative' }}
               />
-              <Button
+              <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   addTip();
                 }}
                 disabled={!newTip.trim()}
-                className="self-start shrink-0"
+                className="self-start shrink-0 h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                style={{ zIndex: 1001, position: 'relative' }}
               >
                 <Plus className="h-4 w-4" />
-              </Button>
+              </button>
             </div>
           </div>
 
           <div className="flex justify-end pt-4">
-            <Button 
-              onClick={handleComplete}
-              className="font-mono"
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleComplete();
+              }}
+              className="font-mono h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              style={{ zIndex: 1001, position: 'relative' }}
             >
               Continue &gt;
-            </Button>
+            </button>
           </div>
         </CardContent>
       </Card>
