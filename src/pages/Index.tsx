@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { DogCommand } from '@/types/dogCommand';
@@ -101,7 +102,7 @@ const Index = () => {
   };
 
   const handleExportPDF = () => {
-    exportPDFGuide(commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail);
+    exportPDFGuide(commands, dogName, ownerName, careTips, emergencyPhone, emergencyEmail, dogPhoto);
     toast({
       title: "Manual exported as PDF ✓",
       description: "File downloaded successfully."

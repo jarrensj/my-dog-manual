@@ -1,4 +1,3 @@
-
 import { DogCommand } from '@/types/dogCommand';
 import jsPDF from 'jspdf';
 
@@ -61,7 +60,7 @@ export const exportTextGuide = (commands: DogCommand[], dogName: string, ownerNa
   URL.revokeObjectURL(url);
 };
 
-export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[], emergencyPhone?: string, emergencyEmail?: string) => {
+export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerName: string, careTips: string[], emergencyPhone?: string, emergencyEmail?: string, dogPhoto?: string) => {
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.width;
   const pageHeight = pdf.internal.pageSize.height;
@@ -163,6 +162,41 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   pdf.setFont('helvetica', 'normal');
   pdf.text(`Generated on ${new Date().toLocaleDateString()}`, margin, yPosition);
   yPosition += 25;
+
+  // Add dog photo if available
+  if (dogPhoto) {
+    // Check if we need a new page for the photo
+    if (yPosition + 80 > pageHeight - margin) {
+      pdf.addPage();
+      yPosition = margin;
+    }
+    
+    try {
+      // Add photo section header
+      pdf.setTextColor(colors.accent);
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('🐕 Dog Photo', margin, yPosition);
+      yPosition += 20;
+      
+      // Add the photo - center it and make it a reasonable size
+      const imgWidth = 60;
+      const imgHeight = 60;
+      const imgX = (pageWidth - imgWidth) / 2;
+      
+      pdf.addImage(dogPhoto, 'JPEG', imgX, yPosition, imgWidth, imgHeight);
+      yPosition += imgHeight + 20;
+      
+    } catch (error) {
+      console.error('Error adding photo to PDF:', error);
+      // If photo fails to load, just add a note
+      pdf.setTextColor(colors.muted);
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'italic');
+      pdf.text('(Photo could not be included)', margin, yPosition);
+      yPosition += 15;
+    }
+  }
 
   // Emergency contact section with enhanced styling
   if (emergencyPhone || emergencyEmail) {
