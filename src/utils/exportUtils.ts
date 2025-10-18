@@ -127,7 +127,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   };
 
   // Helper function to add section with background
-  const addSectionHeader = (title: string, color: number[] = colors.primary, icon: string = '') => {
+  const addSectionHeader = (title: string, color: number[] = colors.primary) => {
     // Check if we need a new page
     if (yPosition + 40 > pageHeight - margin - 30) {
       pdf.addPage();
@@ -151,7 +151,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
     pdf.setTextColor(colors.white[0], colors.white[1], colors.white[2]);
     pdf.setFontSize(15);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(icon + title, margin + 3, yPosition + 5);
+    pdf.text(title, margin + 3, yPosition + 5);
     
     yPosition += 32;
   };
@@ -256,7 +256,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
 
   // Emergency contact section with enhanced styling
   if (emergencyPhone || emergencyEmail) {
-    addSectionHeader('EMERGENCY CONTACT', colors.danger, '⚠ ');
+    addSectionHeader('EMERGENCY CONTACT', colors.danger);
     
     // Add alert box
     pdf.setFillColor(255, 245, 245); // Very light red
@@ -291,7 +291,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   }
 
   // Introduction with better formatting
-  addSectionHeader('INTRODUCTION', colors.accent, '📖 ');
+  addSectionHeader('INTRODUCTION', colors.accent);
   
   // Info box for introduction
   pdf.setFillColor(colors.background[0], colors.background[1], colors.background[2]);
@@ -310,7 +310,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
   yPosition += introBoxHeight + 15;
 
   // Commands section with enhanced styling
-  addSectionHeader('COMMANDS & RESPONSES', colors.secondary, '🐕 ');
+  addSectionHeader('COMMANDS & RESPONSES', colors.secondary);
   
   commands.forEach((cmd, index) => {
     // Calculate box height dynamically
@@ -381,7 +381,7 @@ export const exportPDFGuide = (commands: DogCommand[], dogName: string, ownerNam
 
   // Care tips section with better styling
   yPosition += 10;
-  addSectionHeader('IMPORTANT CARE TIPS', colors.accent, '💡 ');
+  addSectionHeader('IMPORTANT CARE TIPS', colors.accent);
   
   careTips.forEach((tip, index) => {
     const tipLines = pdf.splitTextToSize(tip, pageWidth - 2 * margin - 22);
